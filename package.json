@@ -1,0 +1,74 @@
+{
+  "name": "@omer-x/next-admin-panel-generator",
+  "version": "0.0.0",
+  "description": "Generates admin panel CRUD pages for managing resources",
+  "keywords": [
+    "next",
+    "react",
+    "bootstrap",
+    "admin",
+    "panel",
+    "scaffold",
+    "generator",
+    "code-generator",
+    "crud",
+    "restful",
+    "typescript",
+    "ts",
+    "nextjs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omermecitoglu/next-admin-panel-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omermecitoglu/next-admin-panel-generator/issues"
+  },
+  "homepage": "https://github.com/omermecitoglu/next-admin-panel-generator#readme",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Omer Mecitoglu",
+    "email": "omer.mecitoglu@gmail.com",
+    "url": "https://omermecitoglu.github.io"
+  },
+  "license": "MIT",
+  "main": "bin/index.js",
+  "bin": {
+    "next-admin-panel-generator": "bin/index.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=14.8.0"
+  },
+  "scripts": {
+    "gh:release": "conventional-github-releaser -p angular",
+    "test": "jest",
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "change-case": "^5.4.4",
+    "handlebars": "^4.7.8",
+    "pluralize": "^8.0.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@omer-x/eslint-config": "^1.0.7",
+    "@types/node": "^22.5.4",
+    "@types/pluralize": "^0.0.33",
+    "@types/prompts": "^2.4.9",
+    "esbuild-plugin-inline-import": "^1.1.0",
+    "eslint": "^8.57.0",
+    "semantic-release": "^24.1.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  }
+}

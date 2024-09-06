@@ -1,0 +1,36 @@
+import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+{{#if i18n}}
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+{{/if}}
+import { create } from "~/actions/{{ kebabCaseSingular }}";
+import BackButton from "~/components/BackButton";
+import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
+
+type Create{{ pascalCaseSingular }}PageProps = {
+  params: {
+    {{#if i18n}}
+    locale: string,
+    {{/if}}
+  },
+};
+
+const Create{{ pascalCaseSingular }}Page = async ({
+  params,
+}: Create{{ pascalCaseSingular }}PageProps) => {
+  {{#if i18n}}
+  unstable_setRequestLocale(params.locale);
+  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  {{/if}}
+  return (
+    <>
+      <PageTitle name="New {{ capitalCaseSingular }}">
+        <BackButton href="/admin/{{ kebabCasePlural }}" />
+      </PageTitle>
+      <form action={create}>
+        <{{ pascalCaseSingular }}Form />
+      </form>
+    </>
+  );
+};
+
+export default Create{{ pascalCaseSingular }}Page;

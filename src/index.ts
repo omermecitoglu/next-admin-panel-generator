@@ -3,6 +3,7 @@ import path from "node:path";
 import { checkDirectoryExists, saveFile } from "./core/file";
 import { getAdminRoutePath } from "./core/next";
 import { kebabCase } from "./core/string";
+import generateCreateResourcePage from "./templates/pages/create";
 import generateResourceListPage from "./templates/pages/list";
 
 const modelName = "user post";
@@ -13,3 +14,4 @@ const adminRoutePath = getAdminRoutePath(usingSrc, i18n);
 const baseRouterPath = path.resolve(adminRoutePath, kebabCase(modelName, true));
 
 await saveFile(path.resolve(baseRouterPath), "page.tsx", generateResourceListPage(modelName, i18n));
+await saveFile(path.resolve(baseRouterPath, "new"), "page.tsx", generateCreateResourcePage(modelName, i18n));

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { appendFile, saveFile } from "./file";
+import { appendFile, checkDirectoryExists, saveFile } from "./file";
 
 jest.mock("node:fs/promises");
 
@@ -11,6 +11,26 @@ describe("File operations", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe("checkDirectoryExists", () => {
+    it("should return true if the directory exists", async () => {
+      (fs.access as jest.MockedFunction<typeof fs.access>).mockResolvedValueOnce(undefined);
+
+      const result = await checkDirectoryExists(directory);
+
+      expect(result).toBe(true);
+      expect(fs.access).toHaveBeenCalledWith(directory, fs.constants.F_OK);
+    });
+
+    it("should return false if the directory does not exist", async () => {
+      (fs.access as jest.MockedFunction<typeof fs.access>).mockRejectedValueOnce(new Error("Directory does not exist"));
+
+      const result = await checkDirectoryExists(directory);
+
+      expect(result).toBe(false);
+      expect(fs.access).toHaveBeenCalledWith(directory, fs.constants.F_OK);
+    });
   });
 
   describe("saveFile", () => {
@@ -31,4 +51,3 @@ describe("File operations", () => {
     });
   });
 });
-

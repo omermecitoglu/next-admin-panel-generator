@@ -1,0 +1,44 @@
+import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+{{#if i18n}}
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+{{/if}}
+import { update } from "~/actions/{{ kebabCaseSingular }}";
+import BackButton from "~/components/BackButton";
+import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
+import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
+
+type Edit{{ pascalCaseSingular }}PageProps = {
+  params: {
+    {{#if i18n}}
+    locale: string,
+    {{/if}}
+    id: string,
+  },
+  searchParams: {
+    r: string,
+  },
+};
+
+const Edit{{ pascalCaseSingular }}Page = async ({
+  params,
+  searchParams,
+}: Edit{{ pascalCaseSingular }}PageProps) => {
+  {{#if i18n}}
+  unstable_setRequestLocale(params.locale);
+  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  {{/if}}
+  const fromList = searchParams.r === "list";
+  const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}(params.id);
+  return (
+    <>
+      <PageTitle name="Edit {{ capitalCaseSingular }}">
+        <BackButton href={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${params.id}`} />
+      </PageTitle>
+      <form action={update.bind(null, params.id, fromList)}>
+        <{{ pascalCaseSingular }}Form data={ {{~camelCaseSingular~}} } />
+      </form>
+    </>
+  );
+};
+
+export default Edit{{ pascalCaseSingular }}Page;

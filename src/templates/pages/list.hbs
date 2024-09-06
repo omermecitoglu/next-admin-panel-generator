@@ -1,0 +1,50 @@
+import CreateButton from "@omer-x/bs-ui-kit/CreateButton";
+import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+{{#if i18n}}
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+{{/if}}
+import {{ pascalCaseSingular }}List from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}List";
+import { getAll{{ pascalCasePlural }} } from "~/datasource/{{ kebabCasePlural }}";
+{{#if i18n}}
+import { Link } from "~/navigation";
+{{else}}
+import Link from "next/link";
+{{/if}}
+
+type {{ pascalCaseSingular }}ListPageProps = {
+  params: {
+    {{#if i18n}}
+    locale: string,
+    {{/if}}
+  },
+};
+
+const {{ pascalCaseSingular }}ListPage = async ({
+  params,
+}: {{ pascalCaseSingular }}ListPageProps) => {
+  {{#if i18n}}
+  unstable_setRequestLocale(params.locale);
+  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  {{/if}}
+  const {{ camelCasePlural }} = await getAll{{ pascalCasePlural }}();
+  return (
+    <>
+      <PageTitle name="{{ capitalCasePlural }}">
+        <CreateButton
+          as={Link}
+          text="New {{ capitalCaseSingular }}"
+          href="/admin/{{ kebabCasePlural }}/new"
+          size="sm"
+        />
+      </PageTitle>
+      <{{ pascalCaseSingular }}List
+        collection={ {{~camelCasePlural~}} }
+        {{#if i18n}}
+        pageLocale={params.locale}
+        {{/if}}
+      />
+    </>
+  );
+};
+
+export default {{ pascalCaseSingular }}ListPage;

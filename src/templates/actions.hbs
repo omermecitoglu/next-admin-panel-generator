@@ -1,0 +1,21 @@
+"use server";
+{{#if i18n}}
+import { redirect } from "~/navigation";
+{{else}}
+import { redirect } from "next/navigation";
+{{/if}}
+
+export async function create(formData: FormData) {
+  // make your api calls here
+  redirect("/admin/{{ kebabCasePlural }}");
+}
+
+export async function update(id: string, fromList: boolean, formData: FormData) {
+  // make your api calls here
+  redirect(fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${id}`);
+}
+
+export async function destroy(id: string, formData: FormData) {
+  // make your api calls here
+  redirect("/admin/{{ kebabCasePlural }}");
+}

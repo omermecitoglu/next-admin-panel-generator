@@ -4,6 +4,7 @@ import { checkDirectoryExists, saveFile } from "./core/file";
 import { getAdminRoutePath } from "./core/next";
 import { kebabCase } from "./core/string";
 import generateActions from "./templates/actions";
+import generateDatasource from "./templates/datasource";
 import generateCreateResourcePage from "./templates/pages/create";
 import generateEditResourcePage from "./templates/pages/edit";
 import generateResourceListPage from "./templates/pages/list";
@@ -16,6 +17,7 @@ const usingSrc = await checkDirectoryExists(path.resolve("src/app"));
 const adminRoutePath = getAdminRoutePath(usingSrc, i18n);
 const baseRouterPath = path.resolve(adminRoutePath, kebabCase(modelName, true));
 const actionsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "actions");
+const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "datasource");
 
 // pages
 await saveFile(path.resolve(baseRouterPath), "page.tsx", generateResourceListPage(modelName, i18n));
@@ -25,3 +27,6 @@ await saveFile(path.resolve(baseRouterPath, "[id]/edit"), "page.tsx", generateEd
 
 // actions
 await saveFile(path.resolve(actionsPath), `${kebabCase(modelName, false)}.ts`, generateActions(modelName, i18n));
+
+// datasource
+await saveFile(path.resolve(datasourcePath), `${kebabCase(modelName, true)}.ts`, generateDatasource(modelName));

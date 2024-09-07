@@ -25,7 +25,7 @@ const Edit{{ pascalCaseSingular }}Page = async ({
 }: Edit{{ pascalCaseSingular }}PageProps) => {
   {{#if i18n}}
   unstable_setRequestLocale(params.locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const fromList = searchParams.r === "list";
   const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}(params.id);

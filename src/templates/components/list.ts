@@ -16,7 +16,7 @@ export default function generateListComponent(modelName: string, i18n: boolean) 
   return template({
     i18n,
     capitalCaseSingular: capitalCase(modelName, false, false),
-    kebabCasePlural: kebabCase(modelName, false),
+    kebabCasePlural: kebabCase(modelName, true),
     kebabCaseSingular: kebabCase(modelName, false),
     noCasePlural: noCase(modelName, false),
     pascalCaseSingular: pascalCase(modelName, false),

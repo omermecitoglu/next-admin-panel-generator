@@ -19,7 +19,7 @@ const Create{{ pascalCaseSingular }}Page = async ({
 }: Create{{ pascalCaseSingular }}PageProps) => {
   {{#if i18n}}
   unstable_setRequestLocale(params.locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   return (
     <>

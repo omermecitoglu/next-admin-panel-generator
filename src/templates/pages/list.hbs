@@ -24,7 +24,7 @@ const {{ pascalCaseSingular }}ListPage = async ({
 }: {{ pascalCaseSingular }}ListPageProps) => {
   {{#if i18n}}
   unstable_setRequestLocale(params.locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}Management");
+  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const {{ camelCasePlural }} = await getAll{{ pascalCasePlural }}();
   return (

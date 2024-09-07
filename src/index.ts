@@ -20,7 +20,16 @@ const { modelName } = await prompts({
   message: "Enter model name",
 });
 
-const i18n = false;
+const { i18n } = await prompts({
+  type: "select",
+  name: "i18n",
+  message: "Select your i18n plugin",
+  choices: [
+    { title: "next-intl", value: true },
+    { title: "none", value: false },
+  ],
+  initial: 1,
+});
 
 if (modelName) {
   const usingSrc = await checkDirectoryExists(path.resolve("src/app"));

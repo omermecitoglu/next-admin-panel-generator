@@ -1,0 +1,63 @@
+"use client";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
+import ActionButton from "@omer-x/bs-ui-kit/ActionButton";
+import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
+{{#unless i18n}}
+import Link from "next/link";
+{{/unless}}
+import { useRouter } from "next/navigation";
+{{#if i18n}}
+import { useTranslations } from "next-intl";
+{{/if}}
+import { useEffect, useState } from "react";
+{{#if i18n}}
+import { Link } from "~/navigation";
+{{/if}}
+
+type BackButtonProps = {
+  fallback: string,
+};
+
+const BackButton = ({
+  fallback,
+}: BackButtonProps) => {
+  {{#if i18n}}
+  const t = useTranslations("BackButton");
+  {{/if}}
+  const router = useRouter();
+  const [usingFallback, setUsingFallback] = useState(true);
+
+  useEffect(() => {
+    const referredByOrigin = document.referrer.startsWith(window.location.origin);
+    setUsingFallback(!referredByOrigin || window.history.length < 2);
+  }, []);
+
+  return usingFallback ? (
+    <LinkButton
+      as={Link}
+      variant="secondary"
+      icon={faChevronLeft}
+      {{#if i18n}}
+      text={t("text")}
+      {{else}}
+      text="Back"
+      {{/if}}
+      href={fallback}
+      size="sm"
+    />
+  ) : (
+    <ActionButton
+      variant="secondary"
+      icon={faChevronLeft}
+      {{#if i18n}}
+      text={t("text")}
+      {{else}}
+      text="Back"
+      {{/if}}
+      onClick={router.back}
+      size="sm"
+    />
+  );
+};
+
+export default BackButton;

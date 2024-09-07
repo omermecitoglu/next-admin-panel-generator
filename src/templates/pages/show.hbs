@@ -40,7 +40,7 @@ const Show{{ pascalCaseSingular }}Page = async ({
           href={`/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
           size="sm"
         />
-        <BackButton href="/admin/{{ kebabCasePlural }}" />
+        <BackButton fallback="/admin/{{ kebabCasePlural }}" />
       </PageTitle>
       <InfoTable
         source={ {{~camelCaseSingular~}} }

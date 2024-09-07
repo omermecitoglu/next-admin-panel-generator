@@ -32,7 +32,7 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   return (
     <>
       <PageTitle name="Edit {{ capitalCaseSingular }}">
-        <BackButton href={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${params.id}`} />
+        <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${params.id}`} />
       </PageTitle>
       <{{ pascalCaseSingular }}Form
         action={update.bind(null, params.id, fromList)}

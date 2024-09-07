@@ -15,7 +15,7 @@ export async function update(id: string, fromList: boolean, _: unknown, formData
   redirect(fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${id}`);
 }
 
-export async function destroy(id: string, _: unknown, formData: FormData): Promise<Record<string, string>> {
+export async function destroy(id: string, formData: FormData) {
   // make your api calls here
   redirect("/admin/{{ kebabCasePlural }}");
 }

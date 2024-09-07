@@ -5,6 +5,7 @@ import { getAdminRoutePath } from "./core/next";
 import { kebabCase, pascalCase } from "./core/string";
 import generateActions from "./templates/actions";
 import generateFormComponent from "./templates/components/form";
+import generateListComponent from "./templates/components/list";
 import generateDatasource from "./templates/datasource";
 import generateCreateResourcePage from "./templates/pages/create";
 import generateEditResourcePage from "./templates/pages/edit";
@@ -35,3 +36,4 @@ await saveFile(path.resolve(datasourcePath), `${kebabCase(modelName, true)}.ts`,
 
 // components
 await saveFile(path.resolve(componentsPath), `${pascalCase(modelName, false)}Form.tsx`, generateFormComponent(modelName, i18n));
+await saveFile(path.resolve(componentsPath), `${pascalCase(modelName, false)}List.tsx`, generateListComponent(modelName, i18n));

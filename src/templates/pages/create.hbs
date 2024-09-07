@@ -26,9 +26,7 @@ const Create{{ pascalCaseSingular }}Page = async ({
       <PageTitle name="New {{ capitalCaseSingular }}">
         <BackButton href="/admin/{{ kebabCasePlural }}" />
       </PageTitle>
-      <form action={create}>
-        <{{ pascalCaseSingular }}Form />
-      </form>
+      <{{ pascalCaseSingular }}Form action={create} />
     </>
   );
 };

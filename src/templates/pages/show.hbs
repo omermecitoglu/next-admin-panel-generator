@@ -4,13 +4,13 @@ import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
 import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
 {{#if i18n}}
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+{{else}}
+import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
 import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
 {{#if i18n}}
 import { Link } from "~/navigation";
-{{else}}
-import Link from "next/link";
 {{/if}}
 
 type Show{{ pascalCaseSingular }}PageProps = {

@@ -1,0 +1,36 @@
+import ProgressiveForm from "@omer-x/bs-ui-kit/form/ProgressiveForm";
+import SubmitButton from "@omer-x/bs-ui-kit/form/SubmitButton";
+{{#if i18n}}
+import { useTranslations } from "next-intl";
+{{/if}}
+import Col from "react-bootstrap/Col";
+
+type {{ pascalCaseSingular }}FormProps = {
+  action: (_: unknown, formData: FormData) => Promise<Record<string, string>>,
+  data?: {{ pascalCaseSingular }}DTO,
+};
+
+const {{ pascalCaseSingular }}Form = ({
+  action,
+  data,
+}: {{ pascalCaseSingular }}FormProps) => {
+  {{#if i18n}}
+  const t = useTranslations("{{ pascalCaseSingular }}");
+
+  {{/if}}
+  return (
+    <ProgressiveForm
+      className="row row-gap-3"
+      action={action}
+      messages=\{{
+      }}
+    >
+      <Col md="6" className="d-flex flex-column gap-3">
+        {/* put your inputs here */}
+        <SubmitButton text={data ? "Update" : "Create"} />
+      </Col>
+    </ProgressiveForm>
+  );
+};
+
+export default {{ pascalCaseSingular }}Form;

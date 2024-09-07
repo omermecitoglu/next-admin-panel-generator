@@ -5,17 +5,17 @@ import { redirect } from "~/navigation";
 import { redirect } from "next/navigation";
 {{/if}}
 
-export async function create(formData: FormData) {
+export async function create(_: unknown, formData: FormData): Promise<Record<string, string>> {
   // make your api calls here
   redirect("/admin/{{ kebabCasePlural }}");
 }
 
-export async function update(id: string, fromList: boolean, formData: FormData) {
+export async function update(id: string, fromList: boolean, _: unknown, formData: FormData): Promise<Record<string, string>> {
   // make your api calls here
   redirect(fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${id}`);
 }
 
-export async function destroy(id: string, formData: FormData) {
+export async function destroy(id: string, _: unknown, formData: FormData): Promise<Record<string, string>> {
   // make your api calls here
   redirect("/admin/{{ kebabCasePlural }}");
 }

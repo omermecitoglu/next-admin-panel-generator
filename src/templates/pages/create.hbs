@@ -7,18 +7,23 @@ import BackButton from "~/components/BackButton";
 import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
 
 type Create{{ pascalCaseSingular }}PageProps = {
-  params: {
-    {{#if i18n}}
-    locale: string,
-    {{/if}}
-  },
+  {{#if i18n}}
+  params: Promise<{ locale: string }>,
+  {{else}}
+  params: Promise<unknown>,
+  {{/if}}
 };
 
 const Create{{ pascalCaseSingular }}Page = async ({
   params,
 }: Create{{ pascalCaseSingular }}PageProps) => {
   {{#if i18n}}
-  unstable_setRequestLocale(params.locale);
+  const { locale } = await params;
+  {{else}}
+  const pageParams = await params;
+  {{/if}}
+  {{#if i18n}}
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   return (

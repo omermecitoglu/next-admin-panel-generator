@@ -12,18 +12,23 @@ import { Link } from "~/navigation";
 {{/if}}
 
 type {{ pascalCaseSingular }}ListPageProps = {
-  params: {
-    {{#if i18n}}
-    locale: string,
-    {{/if}}
-  },
+  {{#if i18n}}
+  params: Promise<{ locale: string }>,
+  {{else}}
+  params: Promise<unknown>,
+  {{/if}}
 };
 
 const {{ pascalCaseSingular }}ListPage = async ({
   params,
 }: {{ pascalCaseSingular }}ListPageProps) => {
   {{#if i18n}}
-  unstable_setRequestLocale(params.locale);
+  const { locale } = await params;
+  {{else}}
+  const pageParams = await params;
+  {{/if}}
+  {{#if i18n}}
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const {{ camelCasePlural }} = await getAll{{ pascalCasePlural }}();
@@ -40,7 +45,7 @@ const {{ pascalCaseSingular }}ListPage = async ({
       <{{ pascalCaseSingular }}List
         collection={ {{~camelCasePlural~}} }
         {{#if i18n}}
-        pageLocale={params.locale}
+        pageLocale={locale}
         {{/if}}
       />
     </>

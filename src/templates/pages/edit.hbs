@@ -8,15 +8,12 @@ import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural 
 import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
 
 type Edit{{ pascalCaseSingular }}PageProps = {
-  params: {
-    {{#if i18n}}
-    locale: string,
-    {{/if}}
-    id: string,
-  },
-  searchParams: {
-    r: string,
-  },
+  {{#if i18n}}
+  params: Promise<{ locale: string, id: string }>,
+  {{else}}
+  params: Promise<{ id: string }>,
+  {{/if}}
+  searchParams: Promise<{ r: string }>,
 };
 
 const Edit{{ pascalCaseSingular }}Page = async ({
@@ -24,18 +21,24 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   searchParams,
 }: Edit{{ pascalCaseSingular }}PageProps) => {
   {{#if i18n}}
-  unstable_setRequestLocale(params.locale);
+  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  {{else}}
+  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  {{/if}}
+  const { r } = await searchParams;
+  {{#if i18n}}
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
-  const fromList = searchParams.r === "list";
-  const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}(params.id);
+  const fromList = r === "list";
+  const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
     <>
       <PageTitle name="Edit {{ capitalCaseSingular }}">
-        <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${params.id}`} />
+        <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
       </PageTitle>
       <{{ pascalCaseSingular }}Form
-        action={update.bind(null, params.id, fromList)}
+        action={update.bind(null, {{camelCaseSingular}}.id, fromList)}
         data={ {{~camelCaseSingular~}} }
       />
     </>

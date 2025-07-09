@@ -3,7 +3,7 @@ import InfoTable from "@omer-x/bs-ui-kit/InfoTable";
 import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
 import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
 {{#if i18n}}
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 {{else}}
 import Link from "next/link";
 {{/if}}
@@ -30,7 +30,7 @@ const Show{{ pascalCaseSingular }}Page = async ({
   const { locale, id: {{camelCaseSingular}}Id } = await params;
   {{/if}}
   {{#if i18n}}
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);

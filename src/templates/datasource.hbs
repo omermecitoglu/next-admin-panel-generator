@@ -1,18 +1,36 @@
 import "server-only";
+import { {{ camelCaseSingular }}CT, {{ camelCaseSingular }}IdsCT } from "~/core/cache";
 
-function getAll{{ pascalCaseSingular }}Ids() {
-  // make your api calls here
-  return 
+async function getAll{{ pascalCaseSingular }}Ids() {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}IdsCT(), { idsOnly: true });
+  if ("errorCode" in content) {
+    switch (content.errorCode) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      case "VALIDATION_ERROR":
+        throw new Error(JSON.stringify(content.detail));
+    }
+  }
+  if (!success) throw new Error("getAll{{ pascalCaseSingular }}Ids was unsuccessful");
+  return content;
 }
 
-export function getSingle{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
-  // make your api calls here
-  return 
+export async function getSingle{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}CT({{ camelCaseSingular }}Id), {{ camelCaseSingular }}Id);
+  if ("errorCode" in content) {
+    switch (content.errorCode) {
+      case "XXXXXXXXXXXXXXXXXXXXXX":
+        throw content.errorCode;
+      case "VALIDATION_ERROR":
+        throw new Error(JSON.stringify(content.detail));
+    }
+  }
+  if (!success) throw new Error("getSingle{{ pascalCaseSingular }} was unsuccessful");
+  return content;
 }
 
 export async function getAll{{ pascalCasePlural }}() {
-  const {{ camelCaseSingular }}List = await getAll{{ pascalCaseSingular }}Ids();
-  return await Promise.all({{ camelCaseSingular }}List.map(u => getSingle{{ pascalCaseSingular }}(u.id)));
+  const list = await getAll{{ pascalCaseSingular }}Ids();
+  return await Promise.all(list.map(item => getSingle{{ pascalCaseSingular }}(item.id)));
 }
 
 export function getSpecific{{ pascalCasePlural }}(ids: {{ pascalCaseSingular }}DTO["id"][]) {

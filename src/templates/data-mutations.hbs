@@ -1,0 +1,42 @@
+import "server-only";
+
+export async function insert{{ pascalCaseSingular }}(requestBody: {{ pascalCaseSingular }}CreateDTO) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(requestBody);
+  if ("errorCode" in content) {
+    switch (content.errorCode) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      case "VALIDATION_ERROR":
+        throw new Error(JSON.stringify(content.detail));
+    }
+  }
+  if (!success) throw new Error("insert{{ pascalCaseSingular }} was unsuccessful");
+  return content;
+}
+
+export async function patch{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"], requestBody: {{ pascalCaseSingular }}UpdateDTO) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}Id, requestBody);
+  if ("errorCode" in content) {
+    switch (content.errorCode) {
+      case "XXXXXXXXXXXXXXXXXXXXXX":
+        throw content.errorCode;
+      case "VALIDATION_ERROR":
+        throw new Error(JSON.stringify(content.detail));
+    }
+  }
+  if (!success) throw new Error("patch{{ pascalCaseSingular }} was unsuccessful");
+  return content;
+}
+
+export async function delete{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}Id);
+  if (content && "errorCode" in content) {
+    switch (content.errorCode) {
+      case "XXXXXXXXXXXXXXXXXXXXXX":
+        throw content.errorCode;
+      case "VALIDATION_ERROR":
+        throw new Error(JSON.stringify(content.detail));
+    }
+  }
+  if (!success) throw new Error("delete{{ pascalCaseSingular }} was unsuccessful");
+  return content;
+}

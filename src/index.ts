@@ -4,11 +4,12 @@ import path from "node:path";
 import prompts from "prompts";
 import { checkDirectoryExists, saveFile } from "./core/file";
 import { getAdminRoutePath } from "./core/next";
-import { capitalCase, kebabCase, pascalCase } from "./core/string";
+import { capitalCase, kebabCase, noCase, pascalCase } from "./core/string";
 import generateActions from "./templates/actions";
 import generateBackButtonComponent from "./templates/components/back-button";
 import generateFormComponent from "./templates/components/form";
 import generateListComponent from "./templates/components/list";
+import generateDataMutations from "./templates/data-mutations";
 import generateDatasource from "./templates/datasource";
 import generateCreateResourcePage from "./templates/pages/create";
 import generateEditResourcePage from "./templates/pages/edit";
@@ -39,6 +40,7 @@ if (modelName) {
   const baseRouterPath = path.resolve(adminRoutePath, kebabCase(modelName, true));
   const actionsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "actions");
   const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "data");
+  const mutationsPath = path.resolve(datasourcePath, "mutations");
   const componentsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "components");
   const adminComponentsPath = path.resolve(componentsPath, "admin", kebabCase(modelName, true));
 
@@ -51,8 +53,9 @@ if (modelName) {
   // actions
   await saveFile(actionsPath, `${kebabCase(modelName, false)}.ts`, generateActions(modelName, i18n));
 
-  // datasource
+  // data
   await saveFile(datasourcePath, `${kebabCase(modelName, true)}.ts`, generateDatasource(modelName));
+  await saveFile(mutationsPath, `${kebabCase(modelName, false)}.ts`, generateDataMutations(modelName));
 
   // components
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}Form.tsx`, generateFormComponent(modelName, i18n));
@@ -78,6 +81,10 @@ if (modelName) {
         },
         edit: {
           title: `Edit ${capitalCase(modelName, false, false)}`,
+        },
+        delete: {
+          title: `Delete ${capitalCase(modelName, false, false)}`,
+          description: `Are you sure you want to delete this ${noCase(modelName, true)}?`,
         },
       },
     };

@@ -66,6 +66,9 @@ if (modelName) {
     const dictionary = JSON.parse(await readFile(englishDictionaryPath, "utf-8")) as Record<string, unknown>;
     const alteredDictionary = {
       ...dictionary,
+      BackButton: {
+        label: "Back",
+      },
       [pascalCase(modelName, false)]: {
         list: {
           title: capitalCase(modelName, true, false),

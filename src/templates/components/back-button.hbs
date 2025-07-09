@@ -2,16 +2,15 @@
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 import ActionButton from "@omer-x/bs-ui-kit/ActionButton";
 import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
-{{#unless i18n}}
-import Link from "next/link";
-{{/unless}}
-import { useRouter } from "next/navigation";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
+{{else}}
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 {{/if}}
 import { useEffect, useState } from "react";
 {{#if i18n}}
-import { Link } from "~/navigation";
+import { Link, useRouter } from "~/i18n/routing";
 {{/if}}
 
 type BackButtonProps = {
@@ -28,7 +27,7 @@ const BackButton = ({
   const [usingFallback, setUsingFallback] = useState(true);
 
   useEffect(() => {
-    const referredByOrigin = document.referrer.startsWith(window.location.origin);
+    const referredByOrigin = !document.referrer.length || document.referrer.startsWith(window.location.origin);
     setUsingFallback(!referredByOrigin || window.history.length < 2);
   }, []);
 
@@ -38,7 +37,7 @@ const BackButton = ({
       variant="secondary"
       icon={faChevronLeft}
       {{#if i18n}}
-      text={t("text")}
+      text={t("label")}
       {{else}}
       text="Back"
       {{/if}}
@@ -50,7 +49,7 @@ const BackButton = ({
       variant="secondary"
       icon={faChevronLeft}
       {{#if i18n}}
-      text={t("text")}
+      text={t("label")}
       {{else}}
       text="Back"
       {{/if}}

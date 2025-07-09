@@ -45,7 +45,7 @@ const Create{{ pascalCaseSingular }}Page = async ({
       title="New {{ capitalCaseSingular }}"
       {{/if}}
       toolbar={(
-        <BackButton fallback="/admin/{{ kebabCasePlural }}" />
+        <BackButton fallback="{{ subPath }}/{{ kebabCasePlural }}" />
       )}
     >
       <{{ pascalCaseSingular }}Form action={create{{ pascalCaseSingular }}.bind(null, locale)} />

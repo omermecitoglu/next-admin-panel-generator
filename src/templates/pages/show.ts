@@ -1,8 +1,9 @@
 import { camelCase, capitalCase, kebabCase, pascalCase } from "~/core/string";
 import getTemplate from "~/core/template";
-import handleBarsTemplate from "./show.hbs";
+import template from "./show.hbs";
 
 type ShowResourcePageTemplate = {
+  subPath: string,
   i18n: boolean,
   camelCaseSingular: string,
   capitalCaseSingular: string,
@@ -10,9 +11,16 @@ type ShowResourcePageTemplate = {
   pascalCaseSingular: string,
 };
 
-export default function generateShowResourcePage(modelName: string, i18n: boolean) {
-  const template = getTemplate<ShowResourcePageTemplate>(handleBarsTemplate);
-  return template({
+export default function generateShowResourcePage(modelName: string, i18n: boolean, subPath: string) {
+  while (subPath.startsWith("/")) {
+    subPath = subPath.slice(1);
+  }
+  subPath = subPath.replace(/\([^)]*\)/g, "");
+  if (subPath.length) {
+    subPath = "/" + subPath;
+  }
+  return getTemplate<ShowResourcePageTemplate>(template)({
+    subPath,
     i18n,
     camelCaseSingular: camelCase(modelName, false),
     capitalCaseSingular: capitalCase(modelName, false, false),

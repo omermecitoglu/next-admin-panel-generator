@@ -23,6 +23,13 @@ const { modelName } = await prompts({
   message: "Enter model name",
 });
 
+const { subPath } = await prompts({
+  type: "text",
+  name: "subPath",
+  message: "Enter model name",
+  initial: "/admin",
+});
+
 const { i18n } = await prompts({
   type: "select",
   name: "i18n",
@@ -36,7 +43,7 @@ const { i18n } = await prompts({
 
 if (modelName) {
   const usingSrc = await checkDirectoryExists(path.resolve("src/app"));
-  const adminRoutePath = getAdminRoutePath(usingSrc, i18n);
+  const adminRoutePath = getAdminRoutePath(usingSrc, i18n, subPath);
   const baseRouterPath = path.resolve(adminRoutePath, kebabCase(modelName, true));
   const actionsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "actions");
   const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "data");
@@ -45,10 +52,10 @@ if (modelName) {
   const adminComponentsPath = path.resolve(componentsPath, "admin", kebabCase(modelName, true));
 
   // pages
-  await saveFile(path.resolve(baseRouterPath), "page.tsx", generateResourceListPage(modelName, i18n));
-  await saveFile(path.resolve(baseRouterPath, "new"), "page.tsx", generateCreateResourcePage(modelName, i18n));
-  await saveFile(path.resolve(baseRouterPath, "[id]"), "page.tsx", generateShowResourcePage(modelName, i18n));
-  await saveFile(path.resolve(baseRouterPath, "[id]/edit"), "page.tsx", generateEditResourcePage(modelName, i18n));
+  await saveFile(path.resolve(baseRouterPath), "page.tsx", generateResourceListPage(modelName, i18n, subPath));
+  await saveFile(path.resolve(baseRouterPath, "new"), "page.tsx", generateCreateResourcePage(modelName, i18n, subPath));
+  await saveFile(path.resolve(baseRouterPath, "[id]"), "page.tsx", generateShowResourcePage(modelName, i18n, subPath));
+  await saveFile(path.resolve(baseRouterPath, "[id]/edit"), "page.tsx", generateEditResourcePage(modelName, i18n, subPath));
 
   // actions
   await saveFile(actionsPath, `${kebabCase(modelName, false)}.ts`, generateActions(modelName, i18n));
@@ -59,7 +66,7 @@ if (modelName) {
 
   // components
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}Form.tsx`, generateFormComponent(modelName, i18n));
-  await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}List.tsx`, generateListComponent(modelName, i18n));
+  await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}List.tsx`, generateListComponent(modelName, i18n, subPath));
   await saveFile(componentsPath, "BackButton.tsx", generateBackButtonComponent(i18n));
 
   if (i18n) {

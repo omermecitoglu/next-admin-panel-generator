@@ -1,8 +1,9 @@
 import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
 import getTemplate from "~/core/template";
-import handleBarsTemplate from "./list.hbs";
+import template from "./list.hbs";
 
 type ResourceListPageTemplate = {
+  subPath: string,
   i18n: boolean,
   camelCasePlural: string,
   capitalCasePlural: string,
@@ -13,9 +14,16 @@ type ResourceListPageTemplate = {
   snakeCasePlural: string,
 };
 
-export default function generateResourceListPage(modelName: string, i18n: boolean) {
-  const template = getTemplate<ResourceListPageTemplate>(handleBarsTemplate);
-  return template({
+export default function generateResourceListPage(modelName: string, i18n: boolean, subPath: string) {
+  while (subPath.startsWith("/")) {
+    subPath = subPath.slice(1);
+  }
+  subPath = subPath.replace(/\([^)]*\)/g, "");
+  if (subPath.length) {
+    subPath = "/" + subPath;
+  }
+  return getTemplate<ResourceListPageTemplate>(template)({
+    subPath,
     i18n,
     camelCasePlural: camelCase(modelName, true),
     capitalCasePlural: capitalCase(modelName, true, false),

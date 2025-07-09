@@ -52,7 +52,7 @@ const Edit{{ pascalCaseSingular }}Page = async ({
       title="Edit {{ capitalCaseSingular }}"
       {{/if}}
       toolbar={(
-        <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
+        <BackButton fallback={fromList ? "{{ subPath }}/{{ kebabCasePlural }}" : `{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
       )}
     >
       <{{ pascalCaseSingular }}Form

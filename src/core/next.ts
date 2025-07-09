@@ -1,6 +1,6 @@
 import path from "node:path";
 
-export function getAdminRoutePath(srcDir: boolean, i18nRouting: boolean) {
+export function getAdminRoutePath(srcDir: boolean, i18nRouting: boolean, subPath: string) {
   const directories = [];
   if (srcDir) {
     directories.push("src");
@@ -9,6 +9,9 @@ export function getAdminRoutePath(srcDir: boolean, i18nRouting: boolean) {
   if (i18nRouting) {
     directories.push("[locale]");
   }
-  directories.push("admin");
+  while (subPath.startsWith("/")) {
+    subPath = subPath.slice(1);
+  }
+  directories.push(subPath);
   return path.resolve(process.cwd(), ...directories);
 }

@@ -69,7 +69,7 @@ const {{ pascalCaseSingular }}ListPage = async ({
               {{else}}
               text="New {{ capitalCaseSingular }}"
               {{/if}}
-              href="/admin/{{ kebabCasePlural }}/new"
+              href="{{ subPath }}/{{ kebabCasePlural }}/new"
               size="sm"
             />
           )}

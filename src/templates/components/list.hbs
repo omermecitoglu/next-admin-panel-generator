@@ -46,10 +46,10 @@ const {{ pascalCaseSingular }}List = ({
           {{else}}
           header: "Name",
           {{/if}}
-          wrapper: (value, primaryKey) => <Link href={`/admin/{{ kebabCasePlural }}/${primaryKey}`}>{value}</Link>,
+          wrapper: (value, primaryKey) => <Link href={`{{ subPath }}/{{ kebabCasePlural }}/${primaryKey}`}>{value}</Link>,
         },
       }}
-      editLink={userCanEdit ? (pk => `/admin/{{ kebabCasePlural }}/${pk}/edit?r=list`) : undefined}
+      editLink={userCanEdit ? (pk => `{{ subPath }}/{{ kebabCasePlural }}/${pk}/edit?r=list`) : undefined}
       destroyAction={async (pk, fd) => {
         "use server";
         await destroy{{ pascalCaseSingular }}.bind(null, pageLocale)(pk, {}, fd);

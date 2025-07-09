@@ -56,10 +56,10 @@ const Show{{ pascalCaseSingular }}Page = async ({
             {{else}}
             text="Edit {{ capitalCaseSingular }}"
             {{/if}}
-            href={`/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
+            href={`{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
             size="sm"
           />
-          <BackButton fallback="/admin/{{ kebabCasePlural }}" />
+          <BackButton fallback="{{ subPath }}/{{ kebabCasePlural }}" />
         </>
       )}
     >

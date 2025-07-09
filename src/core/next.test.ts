@@ -1,5 +1,5 @@
 import path from "node:path";
-import { expect, test } from "@jest/globals";
+import { expect, test } from "vitest";
 import { getAdminRoutePath } from "./next";
 
 test("getAdminRoutePath", () => {

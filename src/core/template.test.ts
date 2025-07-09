@@ -1,15 +1,13 @@
-import { beforeAll, describe, expect, it, jest } from "@jest/globals";
 import Handlebars from "handlebars";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import getTemplate from "./template";
-
-jest.mock("handlebars");
 
 describe("getTemplate", () => {
   const templateString = "Hello, {{name}}!";
-  const compiledTemplate = jest.fn();
+  const compiledTemplate = vi.fn();
 
   beforeAll(() => {
-    (Handlebars.compile as jest.Mock).mockImplementation(() => compiledTemplate);
+    vi.spyOn(Handlebars, "compile").mockImplementation(() => compiledTemplate);
   });
 
   it("should compile the given template string", () => {

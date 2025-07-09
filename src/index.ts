@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import prompts from "prompts";
 import { checkDirectoryExists, saveFile } from "./core/file";
 import { getAdminRoutePath } from "./core/next";
-import { kebabCase, pascalCase } from "./core/string";
+import { capitalCase, kebabCase, pascalCase } from "./core/string";
 import generateActions from "./templates/actions";
 import generateBackButtonComponent from "./templates/components/back-button";
 import generateFormComponent from "./templates/components/form";
@@ -13,6 +14,7 @@ import generateCreateResourcePage from "./templates/pages/create";
 import generateEditResourcePage from "./templates/pages/edit";
 import generateResourceListPage from "./templates/pages/list";
 import generateShowResourcePage from "./templates/pages/show";
+import { sortObjectKeysCaseSensitive } from "./utils/sortObjectKeysCaseSensitive";
 
 const { modelName } = await prompts({
   type: "text",
@@ -56,4 +58,27 @@ if (modelName) {
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}Form.tsx`, generateFormComponent(modelName, i18n));
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}List.tsx`, generateListComponent(modelName, i18n));
   await saveFile(componentsPath, "BackButton.tsx", generateBackButtonComponent(i18n));
+
+  if (i18n) {
+    // dictionaries
+    const englishDictionaryDir = path.resolve(process.cwd(), "dictionaries");
+    const englishDictionaryPath = path.resolve(englishDictionaryDir, "en.json");
+    const dictionary = JSON.parse(await readFile(englishDictionaryPath, "utf-8")) as Record<string, unknown>;
+    const alteredDictionary = {
+      ...dictionary,
+      [pascalCase(modelName, false)]: {
+        list: {
+          title: capitalCase(modelName, true, false),
+        },
+        create: {
+          title: `New ${capitalCase(modelName, false, false)}`,
+        },
+        edit: {
+          title: `Edit ${capitalCase(modelName, false, false)}`,
+        },
+      },
+    };
+    const sortedDictionary = sortObjectKeysCaseSensitive(alteredDictionary);
+    await saveFile(englishDictionaryDir, "en.json", JSON.stringify(sortedDictionary, null, 2) + "\n");
+  }
 }

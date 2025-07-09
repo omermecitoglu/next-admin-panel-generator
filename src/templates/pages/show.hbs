@@ -4,13 +4,14 @@ import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "~/navigation";
-import type { AppLocale } from "~/i18n/routing";
 {{else}}
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
 import { getSingle{{ pascalCaseSingular }} } from "~/data/{{ kebabCasePlural }}";
+{{#if i18n}}
+import { type AppLocale, Link } from "~/i18n/routing";
+{{/if}}
 
 type Show{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
@@ -41,7 +42,11 @@ const Show{{ pascalCaseSingular }}Page = async ({
           <LinkButton
             as={Link}
             icon={faPencil}
+            {{#if i18n}}
+            text={t("edit.title")}
+            {{else}}
             text="Edit {{ capitalCaseSingular }}"
+            {{/if}}
             href={`/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
             size="sm"
           />

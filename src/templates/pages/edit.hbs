@@ -1,12 +1,14 @@
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import type { AppLocale } from "~/i18n/routing";
 {{/if}}
 import { update{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
 import { getSingle{{ pascalCaseSingular }} } from "~/data/{{ kebabCasePlural }}";
+{{#if i18n}}
+import type { AppLocale } from "~/i18n/routing";
+{{/if}}
 
 type Edit{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
@@ -35,7 +37,11 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   const {{ camelCaseSingular }} = await getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
     <PageSection
+      {{#if i18n}}
+      title={t("edit.title")}
+      {{else}}
       title="Edit {{ capitalCaseSingular }}"
+      {{/if}}
       toolbar={(
         <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
       )}

@@ -1,12 +1,15 @@
 import CreateButton from "@omer-x/bs-ui-kit/CreateButton";
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
+import { unauthorized } from "next/navigation";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 {{else}}
 import Link from "next/link";
 {{/if}}
 import {{ pascalCaseSingular }}List from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}List";
+import { getSession } from "~/core/session";
 import { getAll{{ pascalCasePlural }} } from "~/data/{{ kebabCasePlural }}";
+import getUserPerms from "~/data/user-perms";
 {{#if i18n}}
 import { type AppLocale, Link } from "~/i18n/routing";
 {{/if}}
@@ -34,11 +37,19 @@ const {{ pascalCaseSingular }}ListPage = async ({
     {{#if i18n}}
     t,
     {{/if}}
-    {{ camelCasePlural }},
+    session,
   ] = await Promise.all([
     {{#if i18n}}
     getTranslations("{{ pascalCaseSingular }}"),
     {{/if}}
+    getSession(),
+  ]);
+  if (!session.userId) unauthorized();
+  const [
+    perms,
+    {{ camelCasePlural }},
+  ] = await Promise.all([
+    getUserPerms(session.userId),
     getAll{{ pascalCasePlural }}(),
   ]);
   return (
@@ -49,20 +60,26 @@ const {{ pascalCaseSingular }}ListPage = async ({
       title="{{ capitalCasePlural }}"
       {{/if}}
       toolbar={(
-        <CreateButton
-          as={Link}
-          {{#if i18n}}
-          text={t("create.title")}
-          {{else}}
-          text="New {{ capitalCaseSingular }}"
-          {{/if}}
-          href="/admin/{{ kebabCasePlural }}/new"
-          size="sm"
-        />
+        <>
+          {perms.includes("can_create_{{ snakeCasePlural }}") && (
+            <CreateButton
+              as={Link}
+              {{#if i18n}}
+              text={t("create.title")}
+              {{else}}
+              text="New {{ capitalCaseSingular }}"
+              {{/if}}
+              href="/admin/{{ kebabCasePlural }}/new"
+              size="sm"
+            />
+          )}
+        </>
       )}
     >
       <{{ pascalCaseSingular }}List
         collection={ {{~camelCasePlural~}} }
+        userCanEdit={perms.includes("can_edit_{{ snakeCasePlural }}")}
+        userCanDelete={perms.includes("can_delete_{{ snakeCasePlural }}")}
         {{#if i18n}}
         pageLocale={locale}
         {{/if}}

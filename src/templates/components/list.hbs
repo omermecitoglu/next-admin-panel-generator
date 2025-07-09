@@ -1,23 +1,28 @@
-import DataTable from "@omer-x/bs-ui-kit/DataTable";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
 {{else}}
+import DataTable from "@omer-x/bs-ui-kit/DataTable";
 import Link from "next/link";
 {{/if}}
 import { destroy{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
 {{#if i18n}}
-import { Link } from "~/navigation";
+import AdminTable from "~/components/AdminTable";
+import { type AppLocale, Link } from "~/i18n/routing";
 {{/if}}
 
 type {{ pascalCaseSingular }}ListProps = {
   collection: {{ pascalCaseSingular }}DTO[],
+  userCanEdit: boolean,
+  userCanDelete: boolean,
   {{#if i18n}}
-  pageLocale: string,
+  pageLocale: AppLocale,
   {{/if}}
 };
 
 const {{ pascalCaseSingular }}List = ({
   collection,
+  userCanEdit,
+  userCanDelete,
   {{#if i18n}}
   pageLocale,
   {{/if}}
@@ -26,26 +31,39 @@ const {{ pascalCaseSingular }}List = ({
   const t = useTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   return (
+    {{#if i18n}}
+    <AdminTable
+    {{else}}
     <DataTable
       link={Link}
+    {{/if}}
       collection={collection}
       primaryKey="id"
       schema=\{{
         name: {
+          {{#if i18n}}
+          header: t("fields.name"),
+          {{else}}
           header: "Name",
+          {{/if}}
           wrapper: (value, primaryKey) => <Link href={`/admin/{{ kebabCasePlural }}/${primaryKey}`}>{value}</Link>,
         },
       }}
-      editLink={pk => `/admin/{{ kebabCasePlural }}/${pk}/edit?r=list`}
+      editLink={userCanEdit ? (pk => `/admin/{{ kebabCasePlural }}/${pk}/edit?r=list`) : undefined}
       destroyAction={async (pk, fd) => {
         "use server";
         await destroy{{ pascalCaseSingular }}.bind(null, pageLocale)(pk, {}, fd);
       }}
+      {{#if i18n}}
+      destroyWarningTitle={t("delete.title")}
+      destroyWarningDescription={t("delete.description")}
+      {{else}}
       destroyWarningTitle="Delete {{ capitalCaseSingular }}"
       destroyWarningDescription="Are you sure you want to delete this {{ noCasePlural }}?"
       destroyConfirmText="Confirm"
       destroyCancelText="Cancel"
-      destroyDisabled={pk => false}
+      {{/if}}
+      destroyDisabled={!userCanDelete}
     />
   );
 };

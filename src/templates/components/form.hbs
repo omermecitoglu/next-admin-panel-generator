@@ -31,7 +31,11 @@ const {{ pascalCaseSingular }}Form = ({
           schema={schemaOf{{ pascalCaseSingular }}CreateDTO}
           defaultValues={data}
           properties=\{{
+          {{#if i18n}}
             title: { label: t("fields.title") },
+          {{else}}
+            title: { label: "Title" },
+          {{/if}}
             /* put your inputs here */
           }}
         />

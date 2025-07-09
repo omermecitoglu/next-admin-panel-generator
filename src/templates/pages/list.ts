@@ -1,4 +1,4 @@
-import { camelCase, capitalCase, kebabCase, pascalCase } from "~/core/string";
+import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
 import getTemplate from "~/core/template";
 import handleBarsTemplate from "./list.hbs";
 
@@ -10,6 +10,7 @@ type ResourceListPageTemplate = {
   kebabCasePlural: string,
   pascalCasePlural: string,
   pascalCaseSingular: string,
+  snakeCasePlural: string,
 };
 
 export default function generateResourceListPage(modelName: string, i18n: boolean) {
@@ -22,5 +23,6 @@ export default function generateResourceListPage(modelName: string, i18n: boolea
     kebabCasePlural: kebabCase(modelName, true),
     pascalCasePlural: pascalCase(modelName, true),
     pascalCaseSingular: pascalCase(modelName, false),
+    snakeCasePlural: snakeCase(modelName, true),
   });
 }

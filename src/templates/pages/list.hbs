@@ -2,18 +2,17 @@ import CreateButton from "@omer-x/bs-ui-kit/CreateButton";
 import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { AppLocale } from "~/i18n/routing";
+import { Link } from "~/navigation";
 {{else}}
 import Link from "next/link";
 {{/if}}
 import {{ pascalCaseSingular }}List from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}List";
 import { getAll{{ pascalCasePlural }} } from "~/datasource/{{ kebabCasePlural }}";
-{{#if i18n}}
-import { Link } from "~/navigation";
-{{/if}}
 
 type {{ pascalCaseSingular }}ListPageProps = {
   {{#if i18n}}
-  params: Promise<{ locale: string }>,
+  params: Promise<{ locale: AppLocale }>,
   {{else}}
   params: Promise<unknown>,
   {{/if}}

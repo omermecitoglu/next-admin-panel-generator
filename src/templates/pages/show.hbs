@@ -4,18 +4,17 @@ import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
 import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "~/navigation";
+import type { AppLocale } from "~/i18n/routing";
 {{else}}
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
 import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
-{{#if i18n}}
-import { Link } from "~/navigation";
-{{/if}}
 
 type Show{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
-  params: Promise<{ locale: string, id: string }>,
+  params: Promise<{ locale: AppLocale, id: string }>,
   {{else}}
   params: Promise<{ id: string }>,
   {{/if}}

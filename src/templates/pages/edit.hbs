@@ -1,6 +1,7 @@
 import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { AppLocale } from "~/i18n/routing";
 {{/if}}
 import { update } from "~/actions/{{ kebabCaseSingular }}";
 import BackButton from "~/components/BackButton";
@@ -9,7 +10,7 @@ import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural 
 
 type Edit{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
-  params: Promise<{ locale: string, id: string }>,
+  params: Promise<{ locale: AppLocale, id: string }>,
   {{else}}
   params: Promise<{ id: string }>,
   {{/if}}

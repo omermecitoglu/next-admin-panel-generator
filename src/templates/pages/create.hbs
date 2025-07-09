@@ -1,4 +1,4 @@
-import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { AppLocale } from "~/i18n/routing";
@@ -28,12 +28,14 @@ const Create{{ pascalCaseSingular }}Page = async ({
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   return (
-    <>
-      <PageTitle name="New {{ capitalCaseSingular }}">
+    <PageSection
+      title="New {{ capitalCaseSingular }}"
+      toolbar={(
         <BackButton fallback="/admin/{{ kebabCasePlural }}" />
-      </PageTitle>
+      )}
+    >
       <{{ pascalCaseSingular }}Form action={create} />
-    </>
+    </PageSection>
   );
 };
 

@@ -1,7 +1,7 @@
 import { faPencil } from "@fortawesome/free-solid-svg-icons/faPencil";
 import InfoTable from "@omer-x/bs-ui-kit/InfoTable";
 import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
-import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "~/navigation";
@@ -34,17 +34,21 @@ const Show{{ pascalCaseSingular }}Page = async ({
   {{/if}}
   const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
-    <>
-      <PageTitle name={ {{~camelCaseSingular~}} .name}>
-        <LinkButton
-          as={Link}
-          icon={faPencil}
-          text="Edit {{ capitalCaseSingular }}"
-          href={`/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
-          size="sm"
-        />
-        <BackButton fallback="/admin/{{ kebabCasePlural }}" />
-      </PageTitle>
+    <PageSection
+      title={ {{~camelCaseSingular~}} .name}
+      toolbar={(
+        <>
+          <LinkButton
+            as={Link}
+            icon={faPencil}
+            text="Edit {{ capitalCaseSingular }}"
+            href={`/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
+            size="sm"
+          />
+          <BackButton fallback="/admin/{{ kebabCasePlural }}" />
+        </>
+      )}
+    >
       <InfoTable
         source={ {{~camelCaseSingular~}} }
         primaryKey="id"
@@ -55,7 +59,7 @@ const Show{{ pascalCaseSingular }}Page = async ({
           },
         }}
       />
-    </>
+    </PageSection>
   );
 };
 

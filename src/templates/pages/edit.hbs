@@ -1,4 +1,4 @@
-import PageTitle from "@omer-x/bs-ui-kit/PageTitle";
+import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { AppLocale } from "~/i18n/routing";
@@ -34,15 +34,17 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   const fromList = r === "list";
   const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
-    <>
-      <PageTitle name="Edit {{ capitalCaseSingular }}">
+    <PageSection
+      title="Edit {{ capitalCaseSingular }}"
+      toolbar={(
         <BackButton fallback={fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
-      </PageTitle>
+      )}
+    >
       <{{ pascalCaseSingular }}Form
         action={update.bind(null, {{camelCaseSingular}}.id, fromList)}
         data={ {{~camelCaseSingular~}} }
       />
-    </>
+    </PageSection>
   );
 };
 

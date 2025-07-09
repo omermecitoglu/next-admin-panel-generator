@@ -5,16 +5,16 @@ function getAll{{ pascalCaseSingular }}Ids() {
   return 
 }
 
-export function getOne{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
+export function getSingle{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
   // make your api calls here
   return 
 }
 
 export async function getAll{{ pascalCasePlural }}() {
   const {{ camelCaseSingular }}List = await getAll{{ pascalCaseSingular }}Ids();
-  return await Promise.all({{ camelCaseSingular }}List.map(u => getOne{{ pascalCaseSingular }}(u.id)));
+  return await Promise.all({{ camelCaseSingular }}List.map(u => getSingle{{ pascalCaseSingular }}(u.id)));
 }
 
 export function getSpecific{{ pascalCasePlural }}(ids: {{ pascalCaseSingular }}DTO["id"][]) {
-  return Promise.all(ids.map(id => getOne{{ pascalCaseSingular }}(id)));
+  return Promise.all(ids.map(id => getSingle{{ pascalCaseSingular }}(id)));
 }

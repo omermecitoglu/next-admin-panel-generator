@@ -3,7 +3,7 @@ import PageSection from "@omer-x/bs-ui-kit/PageSection";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { AppLocale } from "~/i18n/routing";
 {{/if}}
-import { create } from "~/actions/{{ kebabCaseSingular }}";
+import { create{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
 
@@ -34,7 +34,7 @@ const Create{{ pascalCaseSingular }}Page = async ({
         <BackButton fallback="/admin/{{ kebabCasePlural }}" />
       )}
     >
-      <{{ pascalCaseSingular }}Form action={create} />
+      <{{ pascalCaseSingular }}Form action={create{{ pascalCaseSingular }}.bind(null, locale)} />
     </PageSection>
   );
 };

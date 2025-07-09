@@ -3,10 +3,10 @@ import PageSection from "@omer-x/bs-ui-kit/PageSection";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { AppLocale } from "~/i18n/routing";
 {{/if}}
-import { update } from "~/actions/{{ kebabCaseSingular }}";
+import { update{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
-import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
+import { getSingle{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
 
 type Edit{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
@@ -32,7 +32,7 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const fromList = r === "list";
-  const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
+  const {{ camelCaseSingular }} = await getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
     <PageSection
       title="Edit {{ capitalCaseSingular }}"
@@ -41,7 +41,7 @@ const Edit{{ pascalCaseSingular }}Page = async ({
       )}
     >
       <{{ pascalCaseSingular }}Form
-        action={update.bind(null, {{camelCaseSingular}}.id, fromList)}
+        action={update{{ pascalCaseSingular }}.bind(null, locale, {{camelCaseSingular}}.id, fromList)}
         data={ {{~camelCaseSingular~}} }
       />
     </PageSection>

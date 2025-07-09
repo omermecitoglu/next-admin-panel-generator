@@ -1,21 +1,66 @@
 "use server";
+import { defineFormAction } from "@omer-x/bs-ui-kit/server-action";
+import { revalidateTag } from "next/cache";
+import { z } from "zod/v4";
+import { serverMaintenanceCT, serverMaintenanceIdsCT } from "~/core/cache";
+import { delete{{ pascalCasePlural }}, insert{{ pascalCasePlural }}, patch{{ pascalCasePlural }} } from "~/data/mutations/{{ kebabCaseSingular }}";
 {{#if i18n}}
-import { redirect } from "~/navigation";
+import { type AppLocale, redirect } from "~/i18n/routing";
 {{else}}
 import { redirect } from "next/navigation";
 {{/if}}
+import { mustBeLoggedIn } from "./middlewares/session";
 
-export async function create(_: unknown, formData: FormData): Promise<Record<string, string>> {
-  // make your api calls here
-  redirect("/admin/{{ kebabCasePlural }}");
-}
+export const { create{{ pascalCasePlural }} } = defineFormAction({
+  name: "create{{ pascalCasePlural }}",
+  middlewares: [mustBeLoggedIn],
+  schema: schemaOf{{ pascalCasePlural }}CreateDTO,
+  action: input => (async (locale: AppLocale) => {
+    try {
+      await insert{{ pascalCasePlural }}(input);
+    } catch (error) {
+      if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
+        return { "[danger]": error };
+      }
+      throw error;
+    }
+    revalidateTag({{ camelCaseSingular }}IdsCT());
+    return redirect({ locale, href: "/{{ kebabCasePlural }}" });
+  }),
+});
 
-export async function update(id: string, fromList: boolean, _: unknown, formData: FormData): Promise<Record<string, string>> {
-  // make your api calls here
-  redirect(fromList ? "/admin/{{ kebabCasePlural }}" : `/admin/{{ kebabCasePlural }}/${id}`);
-}
+export const { update{{ pascalCasePlural }} } = defineFormAction({
+  name: "update{{ pascalCasePlural }}",
+  middlewares: [mustBeLoggedIn],
+  schema: schemaOf{{ pascalCasePlural }}UpdateDTO,
+  action: input => (async (locale: AppLocale, {{ camelCaseSingular }}Id: {{ pascalCasePlural }}DTO["id"], fromList: boolean) => {
+    try {
+      await patch{{ pascalCasePlural }}({{ camelCaseSingular }}Id, input);
+    } catch (error) {
+      if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
+        return { "[danger]": error };
+      }
+      throw error;
+    }
+    revalidateTag({{ camelCaseSingular }}CT({{ camelCaseSingular }}Id));
+    return redirect({ locale, href: fromList ? "/{{ kebabCasePlural }}" : `/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} Id}` });
+  }),
+});
 
-export async function destroy(id: string, formData: FormData) {
-  // make your api calls here
-  redirect("/admin/{{ kebabCasePlural }}");
-}
+export const { destroy{{ pascalCasePlural }} } = defineFormAction({
+  name: "destroy{{ pascalCasePlural }}",
+  middlewares: [mustBeLoggedIn],
+  schema: z.object({}),
+  action: () => (async (locale: AppLocale, {{ camelCaseSingular }}Id: {{ pascalCasePlural }}DTO["id"]) => {
+    try {
+      await delete{{ pascalCasePlural }}({{ camelCaseSingular }}Id);
+    } catch (error) {
+      if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
+        return { "[danger]": error };
+      }
+      throw error;
+    }
+    revalidateTag({{ camelCaseSingular }}IdsCT());
+    return redirect({ locale, href: "/{{ kebabCasePlural }}" });
+  }),
+});

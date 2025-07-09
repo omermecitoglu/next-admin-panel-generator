@@ -10,7 +10,7 @@ import type { AppLocale } from "~/i18n/routing";
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
-import { getOne{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
+import { getSingle{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
 
 type Show{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}
@@ -32,7 +32,7 @@ const Show{{ pascalCaseSingular }}Page = async ({
   setRequestLocale(locale);
   const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
-  const {{ camelCaseSingular }} = await getOne{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
+  const {{ camelCaseSingular }} = await getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
   return (
     <PageSection
       title={ {{~camelCaseSingular~}} .name}

@@ -1,4 +1,5 @@
 import ProgressiveForm from "@omer-x/bs-ui-kit/form/ProgressiveForm";
+import SmartForm from "@omer-x/bs-ui-kit/form/SmartForm";
 import SubmitButton from "@omer-x/bs-ui-kit/form/SubmitButton";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
@@ -26,8 +27,17 @@ const {{ pascalCaseSingular }}Form = ({
       }}
     >
       <Col md="6" className="d-flex flex-column gap-3">
-        {/* put your inputs here */}
-        <SubmitButton text={data ? "Update" : "Create"} />
+        <SmartForm
+          schema={schemaOf{{ pascalCaseSingular }}CreateDTO}
+          defaultValues={data}
+          properties=\{{
+            title: { label: t("fields.title") },
+            /* put your inputs here */
+          }}
+        />
+        <Col xs="12">
+          <SubmitButton text={data ? "Update" : "Create"} />
+        </Col>
       </Col>
     </ProgressiveForm>
   );

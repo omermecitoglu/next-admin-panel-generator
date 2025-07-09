@@ -31,10 +31,19 @@ const Edit{{ pascalCaseSingular }}Page = async ({
   const { r } = await searchParams;
   {{#if i18n}}
   setRequestLocale(locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
   const fromList = r === "list";
-  const {{ camelCaseSingular }} = await getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
+  const [
+    {{#if i18n}}
+    t,
+    {{/if}}
+    {{ camelCaseSingular }},
+  ] = await Promise.all([
+    {{#if i18n}}
+    getTranslations("{{ pascalCaseSingular }}"),
+    {{/if}}
+    getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id),
+  ]);
   return (
     <PageSection
       {{#if i18n}}

@@ -29,9 +29,18 @@ const {{ pascalCaseSingular }}ListPage = async ({
   {{/if}}
   {{#if i18n}}
   setRequestLocale(locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
-  const {{ camelCasePlural }} = await getAll{{ pascalCasePlural }}();
+  const [
+    {{#if i18n}}
+    t,
+    {{/if}}
+    {{ camelCasePlural }},
+  ] = await Promise.all([
+    {{#if i18n}}
+    getTranslations("{{ pascalCaseSingular }}"),
+    {{/if}}
+    getAll{{ pascalCasePlural }}(),
+  ]);
   return (
     <PageSection
       {{#if i18n}}

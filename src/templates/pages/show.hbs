@@ -31,9 +31,18 @@ const Show{{ pascalCaseSingular }}Page = async ({
   {{/if}}
   {{#if i18n}}
   setRequestLocale(locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
-  const {{ camelCaseSingular }} = await getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id);
+  const [
+    {{#if i18n}}
+    t,
+    {{/if}}
+    {{ camelCaseSingular }},
+  ] = await Promise.all([
+    {{#if i18n}}
+    getTranslations("{{ pascalCaseSingular }}"),
+    {{/if}}
+    getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id),
+  ]);
   return (
     <PageSection
       title={ {{~camelCaseSingular~}} .name}

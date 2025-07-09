@@ -27,8 +27,16 @@ const Create{{ pascalCaseSingular }}Page = async ({
   {{/if}}
   {{#if i18n}}
   setRequestLocale(locale);
-  const t = await getTranslations("{{ pascalCaseSingular }}");
   {{/if}}
+  const [
+    {{#if i18n}}
+    t,
+    {{/if}}
+  ] = await Promise.all([
+    {{#if i18n}}
+    getTranslations("{{ pascalCaseSingular }}"),
+    {{/if}}
+  ]);
   return (
     <PageSection
       {{#if i18n}}

@@ -10,7 +10,7 @@ import type { AppLocale } from "~/i18n/routing";
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
-import { getSingle{{ pascalCaseSingular }} } from "~/datasource/{{ kebabCasePlural }}";
+import { getSingle{{ pascalCaseSingular }} } from "~/data/{{ kebabCasePlural }}";
 
 type Show{{ pascalCaseSingular }}PageProps = {
   {{#if i18n}}

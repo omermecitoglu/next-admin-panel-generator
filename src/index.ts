@@ -36,7 +36,7 @@ if (modelName) {
   const adminRoutePath = getAdminRoutePath(usingSrc, i18n);
   const baseRouterPath = path.resolve(adminRoutePath, kebabCase(modelName, true));
   const actionsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "actions");
-  const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "datasource");
+  const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "data");
   const componentsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "components");
   const adminComponentsPath = path.resolve(componentsPath, "admin", kebabCase(modelName, true));
 

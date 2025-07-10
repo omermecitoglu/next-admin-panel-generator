@@ -2,7 +2,7 @@
 import { defineFormAction } from "@omer-x/bs-ui-kit/server-action";
 import { revalidateTag } from "next/cache";
 import { z } from "zod/v4";
-import { serverMaintenanceCT, serverMaintenanceIdsCT } from "~/core/cache";
+import { {{ camelCaseSingular }}CT, {{ camelCaseSingular }}IdsCT } from "~/core/cache";
 import { delete{{ pascalCasePlural }}, insert{{ pascalCasePlural }}, patch{{ pascalCasePlural }} } from "~/data/mutations/{{ kebabCaseSingular }}";
 {{#if i18n}}
 import { type AppLocale, redirect } from "~/i18n/routing";

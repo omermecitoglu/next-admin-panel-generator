@@ -48,17 +48,19 @@ const Show{{ pascalCaseSingular }}Page = async ({
       title={ {{~camelCaseSingular~}} .name}
       toolbar={(
         <>
-          <LinkButton
-            as={Link}
-            icon={faPencil}
-            {{#if i18n}}
-            text={t("edit.title")}
-            {{else}}
-            text="Edit {{ capitalCaseSingular }}"
-            {{/if}}
-            href={`{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
-            size="sm"
-          />
+          {perms.includes("can_create_{{ snakeCasePlural }}") && (
+            <LinkButton
+              as={Link}
+              icon={faPencil}
+              {{#if i18n}}
+              text={t("edit.title")}
+              {{else}}
+              text="Edit {{ capitalCaseSingular }}"
+              {{/if}}
+              href={`{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
+              size="sm"
+            />
+          )}
           <BackButton fallback="{{ subPath }}/{{ kebabCasePlural }}" />
         </>
       )}

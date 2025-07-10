@@ -1,4 +1,4 @@
-import { camelCase, capitalCase, kebabCase, pascalCase } from "~/core/string";
+import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
 import getTemplate from "~/core/template";
 import template from "./show.hbs";
 
@@ -9,6 +9,7 @@ type ShowResourcePageTemplate = {
   capitalCaseSingular: string,
   kebabCasePlural: string,
   pascalCaseSingular: string,
+  snakeCasePlural: string,
 };
 
 export default function generateShowResourcePage(modelName: string, i18n: boolean, subPath: string) {
@@ -26,5 +27,6 @@ export default function generateShowResourcePage(modelName: string, i18n: boolea
     capitalCaseSingular: capitalCase(modelName, false, false),
     kebabCasePlural: kebabCase(modelName, true),
     pascalCaseSingular: pascalCase(modelName, false),
+    snakeCasePlural: snakeCase(modelName, true),
   });
 }

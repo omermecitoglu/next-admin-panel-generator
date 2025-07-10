@@ -85,9 +85,11 @@ if (modelName) {
         },
         create: {
           title: `New ${capitalCase(modelName, false, false)}`,
+          submit: "Create",
         },
         edit: {
           title: `Edit ${capitalCase(modelName, false, false)}`,
+          submit: "Update",
         },
         delete: {
           title: `Delete ${capitalCase(modelName, false, false)}`,

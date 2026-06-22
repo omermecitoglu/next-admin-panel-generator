@@ -1,5 +1,5 @@
 import { capitalCase, kebabCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import template from "./create.hbs";
 
 type CreateResourcePageTemplate = {
@@ -19,7 +19,7 @@ export default function generateCreateResourcePage(modelName: string, i18n: bool
   if (subPath.length) {
     subPath = "/" + subPath;
   }
-  return getTemplate<CreateResourcePageTemplate>(template)({
+  return render<CreateResourcePageTemplate>(template, {
     subPath,
     i18n,
     capitalCaseSingular: capitalCase(modelName, false, false),

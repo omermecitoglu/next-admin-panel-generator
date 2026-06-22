@@ -1,5 +1,5 @@
 import { camelCase, kebabCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import handleBarsTemplate from "./actions.hbs";
 
 type ActionsTemplate = {
@@ -11,8 +11,7 @@ type ActionsTemplate = {
 };
 
 export default function generateActions(modelName: string, i18n: boolean) {
-  const template = getTemplate<ActionsTemplate>(handleBarsTemplate);
-  return template({
+  return render<ActionsTemplate>(handleBarsTemplate, {
     i18n,
     camelCaseSingular: camelCase(modelName, false),
     kebabCasePlural: kebabCase(modelName, true),

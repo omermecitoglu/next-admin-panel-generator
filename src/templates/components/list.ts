@@ -1,5 +1,5 @@
 import { capitalCase, kebabCase, noCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import template from "./list.hbs";
 
 type ListComponentTemplate = {
@@ -20,7 +20,7 @@ export default function generateListComponent(modelName: string, i18n: boolean, 
   if (subPath.length) {
     subPath = "/" + subPath;
   }
-  return getTemplate<ListComponentTemplate>(template)({
+  return render<ListComponentTemplate>(template, {
     subPath,
     i18n,
     capitalCaseSingular: capitalCase(modelName, false, false),

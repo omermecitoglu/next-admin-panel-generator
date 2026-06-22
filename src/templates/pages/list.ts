@@ -1,5 +1,5 @@
 import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import template from "./list.hbs";
 
 type ResourceListPageTemplate = {
@@ -22,7 +22,7 @@ export default function generateResourceListPage(modelName: string, i18n: boolea
   if (subPath.length) {
     subPath = "/" + subPath;
   }
-  return getTemplate<ResourceListPageTemplate>(template)({
+  return render<ResourceListPageTemplate>(template, {
     subPath,
     i18n,
     camelCasePlural: camelCase(modelName, true),

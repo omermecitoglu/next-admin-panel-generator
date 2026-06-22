@@ -1,5 +1,5 @@
 import { camelCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import handleBarsTemplate from "./datasource.hbs";
 
 type DatasourceTemplate = {
@@ -9,8 +9,7 @@ type DatasourceTemplate = {
 };
 
 export default function generateDatasource(modelName: string) {
-  const template = getTemplate<DatasourceTemplate>(handleBarsTemplate);
-  return template({
+  return render<DatasourceTemplate>(handleBarsTemplate, {
     camelCaseSingular: camelCase(modelName, false),
     pascalCasePlural: pascalCase(modelName, true),
     pascalCaseSingular: pascalCase(modelName, false),

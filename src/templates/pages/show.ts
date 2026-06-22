@@ -1,5 +1,5 @@
 import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import template from "./show.hbs";
 
 type ShowResourcePageTemplate = {
@@ -20,7 +20,7 @@ export default function generateShowResourcePage(modelName: string, i18n: boolea
   if (subPath.length) {
     subPath = "/" + subPath;
   }
-  return getTemplate<ShowResourcePageTemplate>(template)({
+  return render<ShowResourcePageTemplate>(template, {
     subPath,
     i18n,
     camelCaseSingular: camelCase(modelName, false),

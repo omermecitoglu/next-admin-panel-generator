@@ -1,5 +1,5 @@
 import { camelCase, capitalCase, kebabCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import template from "./edit.hbs";
 
 type EditResourcePageTemplate = {
@@ -20,7 +20,7 @@ export default function generateEditResourcePage(modelName: string, i18n: boolea
   if (subPath.length) {
     subPath = "/" + subPath;
   }
-  return getTemplate<EditResourcePageTemplate>(template)({
+  return render<EditResourcePageTemplate>(template, {
     subPath,
     i18n,
     camelCaseSingular: camelCase(modelName, false),

@@ -1,5 +1,5 @@
 import { camelCase, pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import handleBarsTemplate from "./data-mutations.hbs";
 
 type DataMutationsTemplate = {
@@ -8,7 +8,7 @@ type DataMutationsTemplate = {
 };
 
 export default function generateDataMutations(modelName: string) {
-  return getTemplate<DataMutationsTemplate>(handleBarsTemplate)({
+  return render<DataMutationsTemplate>(handleBarsTemplate, {
     camelCaseSingular: camelCase(modelName, false),
     pascalCaseSingular: pascalCase(modelName, false),
   });

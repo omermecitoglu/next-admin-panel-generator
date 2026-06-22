@@ -1,5 +1,5 @@
 import { pascalCase } from "~/core/string";
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import handleBarsTemplate from "./form.hbs";
 
 type FormComponentTemplate = {
@@ -8,8 +8,7 @@ type FormComponentTemplate = {
 };
 
 export default function generateFormComponent(modelName: string, i18n: boolean) {
-  const template = getTemplate<FormComponentTemplate>(handleBarsTemplate);
-  return template({
+  return render<FormComponentTemplate>(handleBarsTemplate, {
     i18n,
     pascalCaseSingular: pascalCase(modelName, false),
   });

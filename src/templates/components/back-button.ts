@@ -1,4 +1,4 @@
-import getTemplate from "~/core/template";
+import render from "~/core/template";
 import handleBarsTemplate from "./back-button.hbs";
 
 type BackButtonComponentTemplate = {
@@ -6,8 +6,7 @@ type BackButtonComponentTemplate = {
 };
 
 export default function generateBackButtonComponent(i18n: boolean) {
-  const template = getTemplate<BackButtonComponentTemplate>(handleBarsTemplate);
-  return template({
+  return render<BackButtonComponentTemplate>(handleBarsTemplate, {
     i18n,
   });
 }

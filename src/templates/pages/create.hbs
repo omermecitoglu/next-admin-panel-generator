@@ -2,14 +2,14 @@ import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 {{/if}}
-import { create{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
+import { create{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import BackButton from "~/components/BackButton";
-import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
+import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
 {{#if i18n}}
 import type { AppLocale } from "~/i18n/routing";
 {{/if}}
 
-type Create{{ pascalCaseSingular }}PageProps = {
+type Create{{ pascalCase modelName "singular" }}PageProps = {
   {{#if i18n}}
   params: Promise<{ locale: AppLocale }>,
   {{else}}
@@ -17,9 +17,9 @@ type Create{{ pascalCaseSingular }}PageProps = {
   {{/if}}
 };
 
-const Create{{ pascalCaseSingular }}Page = async ({
+const Create{{ pascalCase modelName "singular" }}Page = async ({
   params,
-}: Create{{ pascalCaseSingular }}PageProps) => {
+}: Create{{ pascalCase modelName "singular" }}PageProps) => {
   {{#if i18n}}
   const { locale } = await params;
   {{else}}
@@ -34,7 +34,7 @@ const Create{{ pascalCaseSingular }}Page = async ({
     {{/if}}
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCaseSingular }}"),
+    getTranslations("{{ pascalCase modelName "singular" }}"),
     {{/if}}
   ]);
   return (
@@ -42,15 +42,15 @@ const Create{{ pascalCaseSingular }}Page = async ({
       {{#if i18n}}
       title={t("create.title")}
       {{else}}
-      title="New {{ capitalCaseSingular }}"
+      title="New {{ capitalCase modelName "singular" }}"
       {{/if}}
       toolbar={(
-        <BackButton fallback="{{ subPath }}/{{ kebabCasePlural }}" />
+        <BackButton fallback="{{ subPath }}/{{ kebabCase modelName "plural" }}" />
       )}
     >
-      <{{ pascalCaseSingular }}Form action={create{{ pascalCaseSingular }}.bind(null, locale)} />
+      <{{ pascalCase modelName "singular" }}Form action={create{{ pascalCase modelName "singular" }}.bind(null, locale)} />
     </PageSection>
   );
 };
 
-export default Create{{ pascalCaseSingular }}Page;
+export default Create{{ pascalCase modelName "singular" }}Page;

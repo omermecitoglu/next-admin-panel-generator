@@ -1,8 +1,8 @@
 import "server-only";
-import { {{ camelCaseSingular }}CT, {{ camelCaseSingular }}IdsCT } from "~/core/cache";
+import { {{ camelCase modelName "singular" }}CT, {{ camelCase modelName "singular" }}IdsCT } from "~/core/cache";
 
-async function getAll{{ pascalCaseSingular }}Ids() {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}IdsCT(), { idsOnly: true });
+async function getAll{{ pascalCase modelName "singular" }}Ids() {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}IdsCT(), { idsOnly: true });
   if ("errorCode" in content) {
     switch (content.errorCode) {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -10,12 +10,12 @@ async function getAll{{ pascalCaseSingular }}Ids() {
         throw new Error(JSON.stringify(content.detail));
     }
   }
-  if (!success) throw new Error("getAll{{ pascalCaseSingular }}Ids was unsuccessful");
+  if (!success) throw new Error("getAll{{ pascalCase modelName "singular" }}Ids was unsuccessful");
   return content;
 }
 
-export async function getSingle{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}CT({{ camelCaseSingular }}Id), {{ camelCaseSingular }}Id);
+export async function getSingle{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}CT({{ camelCase modelName "singular" }}Id), {{ camelCase modelName "singular" }}Id);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
@@ -24,15 +24,15 @@ export async function getSingle{{ pascalCaseSingular }}({{ camelCaseSingular }}I
         throw new Error(JSON.stringify(content.detail));
     }
   }
-  if (!success) throw new Error("getSingle{{ pascalCaseSingular }} was unsuccessful");
+  if (!success) throw new Error("getSingle{{ pascalCase modelName "singular" }} was unsuccessful");
   return content;
 }
 
-export async function getAll{{ pascalCasePlural }}() {
-  const list = await getAll{{ pascalCaseSingular }}Ids();
-  return await Promise.all(list.map(item => getSingle{{ pascalCaseSingular }}(item.id)));
+export async function getAll{{ pascalCase modelName "plural" }}() {
+  const list = await getAll{{ pascalCase modelName "singular" }}Ids();
+  return await Promise.all(list.map(item => getSingle{{ pascalCase modelName "singular" }}(item.id)));
 }
 
-export function getSpecific{{ pascalCasePlural }}(ids: {{ pascalCaseSingular }}DTO["id"][]) {
-  return Promise.all(ids.map(id => getSingle{{ pascalCaseSingular }}(id)));
+export function getSpecific{{ pascalCase modelName "plural" }}(ids: {{ pascalCase modelName "singular" }}DTO["id"][]) {
+  return Promise.all(ids.map(id => getSingle{{ pascalCase modelName "singular" }}(id)));
 }

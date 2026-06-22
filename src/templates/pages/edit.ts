@@ -1,15 +1,10 @@
-import { camelCase, capitalCase, kebabCase, pascalCase } from "~/core/string";
 import render from "~/core/template";
 import template from "./edit.hbs";
 
 type EditResourcePageTemplate = {
+  modelName: string,
   subPath: string,
   i18n: boolean,
-  camelCaseSingular: string,
-  capitalCaseSingular: string,
-  kebabCaseSingular: string,
-  kebabCasePlural: string,
-  pascalCaseSingular: string,
 };
 
 export default function generateEditResourcePage(modelName: string, i18n: boolean, subPath: string) {
@@ -21,12 +16,8 @@ export default function generateEditResourcePage(modelName: string, i18n: boolea
     subPath = "/" + subPath;
   }
   return render<EditResourcePageTemplate>(template, {
+    modelName,
     subPath,
     i18n,
-    camelCaseSingular: camelCase(modelName, false),
-    capitalCaseSingular: capitalCase(modelName, false, false),
-    kebabCasePlural: kebabCase(modelName, true),
-    kebabCaseSingular: kebabCase(modelName, false),
-    pascalCaseSingular: pascalCase(modelName, false),
   });
 }

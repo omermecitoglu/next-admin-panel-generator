@@ -6,17 +6,17 @@ import { useTranslations } from "next-intl";
 {{/if}}
 import Col from "react-bootstrap/Col";
 
-type {{ pascalCaseSingular }}FormProps = {
+type {{ pascalCase modelName "singular" }}FormProps = {
   action: (_: unknown, formData: FormData) => Promise<Record<string, string>>,
-  data?: {{ pascalCaseSingular }}DTO,
+  data?: {{ pascalCase modelName "singular" }}DTO,
 };
 
-const {{ pascalCaseSingular }}Form = ({
+const {{ pascalCase modelName "singular" }}Form = ({
   action,
   data,
-}: {{ pascalCaseSingular }}FormProps) => {
+}: {{ pascalCase modelName "singular" }}FormProps) => {
   {{#if i18n}}
-  const t = useTranslations("{{ pascalCaseSingular }}");
+  const t = useTranslations("{{ pascalCase modelName "singular" }}");
 
   {{/if}}
   return (
@@ -28,7 +28,7 @@ const {{ pascalCaseSingular }}Form = ({
     >
       <Col md="6" className="d-flex flex-column gap-3">
         <SmartForm
-          schema={schemaOf{{ pascalCaseSingular }}CreateDTO}
+          schema={schemaOf{{ pascalCase modelName "singular" }}CreateDTO}
           defaultValues={data}
           properties=\{{
           {{#if i18n}}
@@ -51,4 +51,4 @@ const {{ pascalCaseSingular }}Form = ({
   );
 };
 
-export default {{ pascalCaseSingular }}Form;
+export default {{ pascalCase modelName "singular" }}Form;

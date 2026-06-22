@@ -8,12 +8,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
-import { getSingle{{ pascalCaseSingular }} } from "~/data/{{ kebabCasePlural }}";
+import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 {{#if i18n}}
 import { type AppLocale, Link } from "~/i18n/routing";
 {{/if}}
 
-type Show{{ pascalCaseSingular }}PageProps = {
+type Show{{ pascalCase modelName "singular" }}PageProps = {
   {{#if i18n}}
   params: Promise<{ locale: AppLocale, id: string }>,
   {{else}}
@@ -21,13 +21,13 @@ type Show{{ pascalCaseSingular }}PageProps = {
   {{/if}}
 };
 
-const Show{{ pascalCaseSingular }}Page = async ({
+const Show{{ pascalCase modelName "singular" }}Page = async ({
   params,
-}: Show{{ pascalCaseSingular }}PageProps) => {
+}: Show{{ pascalCase modelName "singular" }}PageProps) => {
   {{#if i18n}}
-  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
   {{else}}
-  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
   {{/if}}
   {{#if i18n}}
   setRequestLocale(locale);
@@ -36,37 +36,37 @@ const Show{{ pascalCaseSingular }}Page = async ({
     {{#if i18n}}
     t,
     {{/if}}
-    {{ camelCaseSingular }},
+    {{ camelCase modelName "singular" }},
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCaseSingular }}"),
+    getTranslations("{{ pascalCase modelName "singular" }}"),
     {{/if}}
-    getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id),
+    getSingle{{ pascalCase modelName "singular" }}({{camelCase modelName "singular"}}Id),
   ]);
   return (
     <PageSection
-      title={ {{~camelCaseSingular~}} .name}
+      title={ {{~camelCase modelName "singular"~}} .name}
       toolbar={(
         <>
-          {perms.includes("can_create_{{ snakeCasePlural }}") && (
+          {perms.includes("can_create_{{ snakeCase modelName "plural" }}") && (
             <LinkButton
               as={Link}
               icon={faPencil}
               {{#if i18n}}
               text={t("edit.title")}
               {{else}}
-              text="Edit {{ capitalCaseSingular }}"
+              text="Edit {{ capitalCase modelName "singular" }}"
               {{/if}}
-              href={`{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}/edit`}
+              href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~camelCase modelName "singular"~}} .id}/edit`}
               size="sm"
             />
           )}
-          <BackButton fallback="{{ subPath }}/{{ kebabCasePlural }}" />
+          <BackButton fallback="{{ subPath }}/{{ kebabCase modelName "plural" }}" />
         </>
       )}
     >
       <InfoTable
-        source={ {{~camelCaseSingular~}} }
+        source={ {{~camelCase modelName "singular"~}} }
         primaryKey="id"
         schema=\{{
           id: {
@@ -79,4 +79,4 @@ const Show{{ pascalCaseSingular }}Page = async ({
   );
 };
 
-export default Show{{ pascalCaseSingular }}Page;
+export default Show{{ pascalCase modelName "singular" }}Page;

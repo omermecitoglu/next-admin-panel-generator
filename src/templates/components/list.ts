@@ -1,15 +1,10 @@
-import { capitalCase, kebabCase, noCase, pascalCase } from "~/core/string";
 import render from "~/core/template";
 import template from "./list.hbs";
 
 type ListComponentTemplate = {
+  modelName: string,
   subPath: string,
   i18n: boolean,
-  capitalCaseSingular: string,
-  kebabCasePlural: string,
-  kebabCaseSingular: string,
-  noCasePlural: string,
-  pascalCaseSingular: string,
 };
 
 export default function generateListComponent(modelName: string, i18n: boolean, subPath: string) {
@@ -21,12 +16,8 @@ export default function generateListComponent(modelName: string, i18n: boolean, 
     subPath = "/" + subPath;
   }
   return render<ListComponentTemplate>(template, {
+    modelName,
     subPath,
     i18n,
-    capitalCaseSingular: capitalCase(modelName, false, false),
-    kebabCasePlural: kebabCase(modelName, true),
-    kebabCaseSingular: kebabCase(modelName, false),
-    noCasePlural: noCase(modelName, false),
-    pascalCaseSingular: pascalCase(modelName, false),
   });
 }

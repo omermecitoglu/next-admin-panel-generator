@@ -6,15 +6,15 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 {{else}}
 import Link from "next/link";
 {{/if}}
-import {{ pascalCaseSingular }}List from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}List";
+import {{ pascalCase modelName "singular" }}List from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}List";
 import { getSession } from "~/core/session";
-import { getAll{{ pascalCasePlural }} } from "~/data/{{ kebabCasePlural }}";
+import { getAll{{ pascalCase modelName "plural" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 import getUserPerms from "~/data/user-perms";
 {{#if i18n}}
 import { type AppLocale, Link } from "~/i18n/routing";
 {{/if}}
 
-type {{ pascalCaseSingular }}ListPageProps = {
+type {{ pascalCase modelName "singular" }}ListPageProps = {
   {{#if i18n}}
   params: Promise<{ locale: AppLocale }>,
   {{else}}
@@ -22,9 +22,9 @@ type {{ pascalCaseSingular }}ListPageProps = {
   {{/if}}
 };
 
-const {{ pascalCaseSingular }}ListPage = async ({
+const {{ pascalCase modelName "singular" }}ListPage = async ({
   params,
-}: {{ pascalCaseSingular }}ListPageProps) => {
+}: {{ pascalCase modelName "singular" }}ListPageProps) => {
   {{#if i18n}}
   const { locale } = await params;
   {{else}}
@@ -40,46 +40,46 @@ const {{ pascalCaseSingular }}ListPage = async ({
     session,
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCaseSingular }}"),
+    getTranslations("{{ pascalCase modelName "singular" }}"),
     {{/if}}
     getSession(),
   ]);
   if (!session.userId) unauthorized();
   const [
     perms,
-    {{ camelCasePlural }},
+    {{ camelCase modelName "plural" }},
   ] = await Promise.all([
     getUserPerms(session.userId),
-    getAll{{ pascalCasePlural }}(),
+    getAll{{ pascalCase modelName "plural" }}(),
   ]);
   return (
     <PageSection
       {{#if i18n}}
       title={t("list.title")}
       {{else}}
-      title="{{ capitalCasePlural }}"
+      title="{{ capitalCase modelName "plural" }}"
       {{/if}}
       toolbar={(
         <>
-          {perms.includes("can_create_{{ snakeCasePlural }}") && (
+          {perms.includes("can_create_{{ snakeCase modelName "plural" }}") && (
             <CreateButton
               as={Link}
               {{#if i18n}}
               text={t("create.title")}
               {{else}}
-              text="New {{ capitalCaseSingular }}"
+              text="New {{ capitalCase modelName "singular" }}"
               {{/if}}
-              href="{{ subPath }}/{{ kebabCasePlural }}/new"
+              href="{{ subPath }}/{{ kebabCase modelName "plural" }}/new"
               size="sm"
             />
           )}
         </>
       )}
     >
-      <{{ pascalCaseSingular }}List
-        collection={ {{~camelCasePlural~}} }
-        userCanEdit={perms.includes("can_edit_{{ snakeCasePlural }}")}
-        userCanDelete={perms.includes("can_delete_{{ snakeCasePlural }}")}
+      <{{ pascalCase modelName "singular" }}List
+        collection={ {{~camelCase modelName "plural"~}} }
+        userCanEdit={perms.includes("can_edit_{{ snakeCase modelName "plural" }}")}
+        userCanDelete={perms.includes("can_delete_{{ snakeCase modelName "plural" }}")}
         {{#if i18n}}
         pageLocale={locale}
         {{/if}}
@@ -88,4 +88,4 @@ const {{ pascalCaseSingular }}ListPage = async ({
   );
 };
 
-export default {{ pascalCaseSingular }}ListPage;
+export default {{ pascalCase modelName "singular" }}ListPage;

@@ -2,15 +2,15 @@ import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
 {{/if}}
-import { update{{ pascalCaseSingular }} } from "~/actions/{{ kebabCaseSingular }}";
+import { update{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import BackButton from "~/components/BackButton";
-import {{ pascalCaseSingular }}Form from "~/components/admin/{{ kebabCasePlural }}/{{ pascalCaseSingular }}Form";
-import { getSingle{{ pascalCaseSingular }} } from "~/data/{{ kebabCasePlural }}";
+import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
+import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 {{#if i18n}}
 import type { AppLocale } from "~/i18n/routing";
 {{/if}}
 
-type Edit{{ pascalCaseSingular }}PageProps = {
+type Edit{{ pascalCase modelName "singular" }}PageProps = {
   {{#if i18n}}
   params: Promise<{ locale: AppLocale, id: string }>,
   {{else}}
@@ -19,14 +19,14 @@ type Edit{{ pascalCaseSingular }}PageProps = {
   searchParams: Promise<{ r: string }>,
 };
 
-const Edit{{ pascalCaseSingular }}Page = async ({
+const Edit{{ pascalCase modelName "singular" }}Page = async ({
   params,
   searchParams,
-}: Edit{{ pascalCaseSingular }}PageProps) => {
+}: Edit{{ pascalCase modelName "singular" }}PageProps) => {
   {{#if i18n}}
-  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
   {{else}}
-  const { locale, id: {{camelCaseSingular}}Id } = await params;
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
   {{/if}}
   const { r } = await searchParams;
   {{#if i18n}}
@@ -37,30 +37,30 @@ const Edit{{ pascalCaseSingular }}Page = async ({
     {{#if i18n}}
     t,
     {{/if}}
-    {{ camelCaseSingular }},
+    {{ camelCase modelName "singular" }},
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCaseSingular }}"),
+    getTranslations("{{ pascalCase modelName "singular" }}"),
     {{/if}}
-    getSingle{{ pascalCaseSingular }}({{camelCaseSingular}}Id),
+    getSingle{{ pascalCase modelName "singular" }}({{camelCase modelName "singular"}}Id),
   ]);
   return (
     <PageSection
       {{#if i18n}}
       title={t("edit.title")}
       {{else}}
-      title="Edit {{ capitalCaseSingular }}"
+      title="Edit {{ capitalCase modelName "singular" }}"
       {{/if}}
       toolbar={(
-        <BackButton fallback={fromList ? "{{ subPath }}/{{ kebabCasePlural }}" : `{{ subPath }}/{{ kebabCasePlural }}/${ {{~camelCaseSingular~}} .id}`} />
+        <BackButton fallback={fromList ? "{{ subPath }}/{{ kebabCase modelName "plural" }}" : `{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~camelCase modelName "singular"~}} .id}`} />
       )}
     >
-      <{{ pascalCaseSingular }}Form
-        action={update{{ pascalCaseSingular }}.bind(null, locale, {{camelCaseSingular}}.id, fromList)}
-        data={ {{~camelCaseSingular~}} }
+      <{{ pascalCase modelName "singular" }}Form
+        action={update{{ pascalCase modelName "singular" }}.bind(null, locale, {{camelCase modelName "singular"}}.id, fromList)}
+        data={ {{~camelCase modelName "singular"~}} }
       />
     </PageSection>
   );
 };
 
-export default Edit{{ pascalCaseSingular }}Page;
+export default Edit{{ pascalCase modelName "singular" }}Page;

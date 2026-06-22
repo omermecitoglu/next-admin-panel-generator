@@ -1,6 +1,6 @@
 import "server-only";
 
-export async function insert{{ pascalCaseSingular }}(requestBody: {{ pascalCaseSingular }}CreateDTO) {
+export async function insert{{ pascalCase modelName "singular" }}(requestBody: {{ pascalCase modelName "singular" }}CreateDTO) {
   const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
@@ -9,12 +9,12 @@ export async function insert{{ pascalCaseSingular }}(requestBody: {{ pascalCaseS
         throw new Error(JSON.stringify(content.detail));
     }
   }
-  if (!success) throw new Error("insert{{ pascalCaseSingular }} was unsuccessful");
+  if (!success) throw new Error("insert{{ pascalCase modelName "singular" }} was unsuccessful");
   return content;
 }
 
-export async function patch{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"], requestBody: {{ pascalCaseSingular }}UpdateDTO) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}Id, requestBody);
+export async function patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], requestBody: {{ pascalCase modelName "singular" }}UpdateDTO) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}Id, requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
@@ -23,12 +23,12 @@ export async function patch{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {
         throw new Error(JSON.stringify(content.detail));
     }
   }
-  if (!success) throw new Error("patch{{ pascalCaseSingular }} was unsuccessful");
+  if (!success) throw new Error("patch{{ pascalCase modelName "singular" }} was unsuccessful");
   return content;
 }
 
-export async function delete{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: {{ pascalCaseSingular }}DTO["id"]) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCaseSingular }}Id);
+export async function delete{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}Id);
   if (content && "errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
@@ -37,6 +37,6 @@ export async function delete{{ pascalCaseSingular }}({{ camelCaseSingular }}Id: 
         throw new Error(JSON.stringify(content.detail));
     }
   }
-  if (!success) throw new Error("delete{{ pascalCaseSingular }} was unsuccessful");
+  if (!success) throw new Error("delete{{ pascalCase modelName "singular" }} was unsuccessful");
   return content;
 }

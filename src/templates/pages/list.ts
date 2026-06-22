@@ -1,17 +1,10 @@
-import { camelCase, capitalCase, kebabCase, pascalCase, snakeCase } from "~/core/string";
 import render from "~/core/template";
 import template from "./list.hbs";
 
 type ResourceListPageTemplate = {
+  modelName: string,
   subPath: string,
   i18n: boolean,
-  camelCasePlural: string,
-  capitalCasePlural: string,
-  capitalCaseSingular: string,
-  kebabCasePlural: string,
-  pascalCasePlural: string,
-  pascalCaseSingular: string,
-  snakeCasePlural: string,
 };
 
 export default function generateResourceListPage(modelName: string, i18n: boolean, subPath: string) {
@@ -23,14 +16,8 @@ export default function generateResourceListPage(modelName: string, i18n: boolea
     subPath = "/" + subPath;
   }
   return render<ResourceListPageTemplate>(template, {
+    modelName,
     subPath,
     i18n,
-    camelCasePlural: camelCase(modelName, true),
-    capitalCasePlural: capitalCase(modelName, true, false),
-    capitalCaseSingular: capitalCase(modelName, false, false),
-    kebabCasePlural: kebabCase(modelName, true),
-    pascalCasePlural: pascalCase(modelName, true),
-    pascalCaseSingular: pascalCase(modelName, false),
-    snakeCasePlural: snakeCase(modelName, true),
   });
 }

@@ -1,33 +1,24 @@
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
 {{/if}}
 import { create{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
 {{#if i18n}}
-import type { AppLocale } from "~/i18n/routing";
+import { notFound, routing } from "~/i18n/routing";
 {{/if}}
 
-type Create{{ pascalCase modelName "singular" }}PageProps = {
-  {{#if i18n}}
-  params: Promise<{ locale: AppLocale }>,
-  {{else}}
-  params: Promise<unknown>,
-  {{/if}}
-};
-
-const Create{{ pascalCase modelName "singular" }}Page = async ({
-  params,
-}: Create{{ pascalCase modelName "singular" }}PageProps) => {
-  {{#if i18n}}
-  const { locale } = await params;
-  {{else}}
-  const pageParams = await params;
-  {{/if}}
-  {{#if i18n}}
+{{#if i18n}}
+export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCase modelName "plural" }}/new">) {
+  const { locale } = await page.params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  {{/if}}
+{{else}}
+export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/new">) {
+  const pageParams = await page.params;
+{{/if}}
   const [
     {{#if i18n}}
     t,
@@ -52,5 +43,3 @@ const Create{{ pascalCase modelName "singular" }}Page = async ({
     </PageSection>
   );
 };
-
-export default Create{{ pascalCase modelName "singular" }}Page;

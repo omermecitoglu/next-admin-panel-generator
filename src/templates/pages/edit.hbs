@@ -1,35 +1,26 @@
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
 {{/if}}
 import { update{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
 import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 {{#if i18n}}
-import type { AppLocale } from "~/i18n/routing";
+import { notFound, routing } from "~/i18n/routing";
 {{/if}}
 
-type Edit{{ pascalCase modelName "singular" }}PageProps = {
+{{#if i18n}}
+export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit">) {
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await page.params;
+{{else}}
+export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit">) {
+  const { locale, id: {{camelCase modelName "singular"}}Id } = await page.params;
+{{/if}}
+  const { r } = await page.searchParams;
   {{#if i18n}}
-  params: Promise<{ locale: AppLocale, id: string }>,
-  {{else}}
-  params: Promise<{ id: string }>,
-  {{/if}}
-  searchParams: Promise<{ r: string }>,
-};
-
-const Edit{{ pascalCase modelName "singular" }}Page = async ({
-  params,
-  searchParams,
-}: Edit{{ pascalCase modelName "singular" }}PageProps) => {
-  {{#if i18n}}
-  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
-  {{else}}
-  const { locale, id: {{camelCase modelName "singular"}}Id } = await params;
-  {{/if}}
-  const { r } = await searchParams;
-  {{#if i18n}}
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   {{/if}}
   const fromList = r === "list";
@@ -62,5 +53,3 @@ const Edit{{ pascalCase modelName "singular" }}Page = async ({
     </PageSection>
   );
 };
-
-export default Edit{{ pascalCase modelName "singular" }}Page;

@@ -3,6 +3,7 @@ import PageSection from "@omer-x/bs-ui-kit/PageSection";
 import { unauthorized } from "next/navigation";
 {{#if i18n}}
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { hasLocale } from "next-intl";
 {{else}}
 import Link from "next/link";
 {{/if}}
@@ -11,28 +12,18 @@ import { getSession } from "~/core/session";
 import { getAll{{ pascalCase modelName "plural" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 import getUserPerms from "~/data/user-perms";
 {{#if i18n}}
-import { type AppLocale, Link } from "~/i18n/routing";
+import { Link, notFound, routing } from "~/i18n/routing";
 {{/if}}
 
-type {{ pascalCase modelName "singular" }}ListPageProps = {
-  {{#if i18n}}
-  params: Promise<{ locale: AppLocale }>,
-  {{else}}
-  params: Promise<unknown>,
-  {{/if}}
-};
-
-const {{ pascalCase modelName "singular" }}ListPage = async ({
-  params,
-}: {{ pascalCase modelName "singular" }}ListPageProps) => {
-  {{#if i18n}}
-  const { locale } = await params;
-  {{else}}
-  const pageParams = await params;
-  {{/if}}
-  {{#if i18n}}
+{{#if i18n}}
+export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCase modelName "plural" }}">) {
+  const { locale } = await page.params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  {{/if}}
+{{else}}
+export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}">) {
+  const pageParams = await page.params;
+{{/if}}
   const [
     {{#if i18n}}
     t,
@@ -87,5 +78,3 @@ const {{ pascalCase modelName "singular" }}ListPage = async ({
     </PageSection>
   );
 };
-
-export default {{ pascalCase modelName "singular" }}ListPage;

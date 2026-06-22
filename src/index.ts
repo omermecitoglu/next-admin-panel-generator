@@ -26,7 +26,7 @@ const { modelName } = await prompts({
 const { subPath } = await prompts({
   type: "text",
   name: "subPath",
-  message: "Enter model name",
+  message: "Enter subpath",
   initial: "/admin",
 });
 

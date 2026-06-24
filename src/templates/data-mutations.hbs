@@ -1,29 +1,28 @@
 import "server-only";
 
-export async function insert{{ pascalCase modelName "singular" }}(requestBody: {{ pascalCase modelName "singular" }}CreateDTO) {
+export async function insert{{ pascalCase modelName "singular" }}(requestBody: New{{ pascalCase modelName "singular" }}DTO) {
   const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      case "VALIDATION_ERROR":
-        throw new Error(JSON.stringify(content.detail));
+      case "BAD_REQUEST":
+      case "UNKNOWN_ERROR":
+        throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("insert{{ pascalCase modelName "singular" }} was unsuccessful");
+  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
   return content;
 }
 
-export async function patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], requestBody: {{ pascalCase modelName "singular" }}UpdateDTO) {
+export async function patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], requestBody: {{ pascalCase modelName "singular" }}PatchDTO) {
   const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}Id, requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
-        throw content.errorCode;
-      case "VALIDATION_ERROR":
-        throw new Error(JSON.stringify(content.detail));
+      case "UNKNOWN_ERROR":
+        throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("patch{{ pascalCase modelName "singular" }} was unsuccessful");
+  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
   return content;
 }
 
@@ -32,11 +31,10 @@ export async function delete{{ pascalCase modelName "singular" }}({{ camelCase m
   if (content && "errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
-        throw content.errorCode;
-      case "VALIDATION_ERROR":
-        throw new Error(JSON.stringify(content.detail));
+      case "UNKNOWN_ERROR":
+        throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("delete{{ pascalCase modelName "singular" }} was unsuccessful");
+  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
   return content;
 }

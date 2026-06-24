@@ -1,8 +1,7 @@
 "use server";
-import { defineFormAction } from "@omer-x/bs-ui-kit/server-action";
-import { revalidateTag } from "next/cache";
+import { defineFormAction, displayMessage } from "@omer-x/next-form-actions";
+import { updateTag } from "next/cache";
 import { z } from "zod/v4";
-import { {{ camelCase modelName "singular" }}CT, {{ camelCase modelName "singular" }}IdsCT } from "~/core/cache";
 import { delete{{ pascalCase modelName "singular" }}, insert{{ pascalCase modelName "singular" }}, patch{{ pascalCase modelName "singular" }} } from "~/data/mutations/{{ kebabCase modelName "singular" }}";
 {{#if i18n}}
 import { type AppLocale, redirect } from "~/i18n/routing";
@@ -11,44 +10,52 @@ import { redirect } from "next/navigation";
 {{/if}}
 import { mustBeLoggedIn } from "./middlewares/session";
 
-export const { create{{ pascalCase modelName "singular" }} } = defineFormAction({
-  name: "create{{ pascalCase modelName "singular" }}",
+export const create{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
-  schema: schemaOf{{ pascalCase modelName "singular" }}CreateDTO,
+  schema: schemaOfNew{{ pascalCase modelName "singular" }}DTO,
   action: input => (async (locale: AppLocale) => {
     try {
       await insert{{ pascalCase modelName "singular" }}(input);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
-        return { "[danger]": error };
+        displayMessage("error", error);
       }
       throw error;
     }
-    revalidateTag({{ camelCase modelName "singular" }}IdsCT());
-    return redirect({ locale, href: "/{{ kebabCase modelName "plural" }}" });
+    updateTag("getAll{{ pascalCase modelName "plural" }}()");
+    return redirect({
+      locale,
+      href: "/{{ kebabCase modelName "plural" }}"
+    });
   }),
 });
 
-export const { update{{ pascalCase modelName "singular" }} } = defineFormAction({
-  name: "update{{ pascalCase modelName "singular" }}",
+export const update{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
-  schema: schemaOf{{ pascalCase modelName "singular" }}UpdateDTO,
+  schema: schemaOf{{ pascalCase modelName "singular" }}PatchDTO,
   action: input => (async (locale: AppLocale, {{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], fromList: boolean) => {
     try {
       await patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id, input);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
-        return { "[danger]": error };
+        displayMessage("error", error);
       }
       throw error;
     }
-    revalidateTag({{ camelCase modelName "singular" }}CT({{ camelCase modelName "singular" }}Id));
-    return redirect({ locale, href: fromList ? "/{{ kebabCase modelName "plural" }}" : `/{{ kebabCase modelName "plural" }}/${ {{~camelCase modelName "singular"~}} Id}` });
+    updateTag(`getSingle{{ pascalCase modelName "singular" }}(${ {{~ camelCase modelName "singular" }}Id})`);
+    return redirect({
+      locale,
+      href: fromList ? "/{{ kebabCase modelName "plural" }}" : {
+        pathname: "/{{ kebabCase modelName "plural" }}/[id]",
+          params: {
+            id: {{ camelCase modelName "singular" }}Id,
+          },
+        },
+      });
   }),
 });
 
-export const { destroy{{ pascalCase modelName "singular" }} } = defineFormAction({
-  name: "destroy{{ pascalCase modelName "singular" }}",
+export const destroy{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: z.object({}),
   action: () => (async (locale: AppLocale, {{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) => {
@@ -56,11 +63,14 @@ export const { destroy{{ pascalCase modelName "singular" }} } = defineFormAction
       await delete{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
-        return { "[danger]": error };
+        displayMessage("error", error);
       }
       throw error;
     }
-    revalidateTag({{ camelCase modelName "singular" }}IdsCT());
-    return redirect({ locale, href: "/{{ kebabCase modelName "plural" }}" });
+    updateTag("getAll{{ pascalCase modelName "plural" }}()");
+    return redirect({
+      locale,
+      href: "/{{ kebabCase modelName "plural" }}"
+    });
   }),
 });

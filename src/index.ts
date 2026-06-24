@@ -10,6 +10,7 @@ import generateBackButtonComponent from "./templates/components/back-button";
 import generateFormComponent from "./templates/components/form";
 import generateListComponent from "./templates/components/list";
 import generateDataMutations from "./templates/data-mutations";
+import generateAllFetcherUtility from "./templates/data-utils/all";
 import generateDatasource from "./templates/datasource";
 import generateCreateResourcePage from "./templates/pages/create";
 import generateEditResourcePage from "./templates/pages/edit";
@@ -48,6 +49,7 @@ if (modelName) {
   const actionsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "actions");
   const datasourcePath = path.resolve(process.cwd(), usingSrc ? "src" : "", "data");
   const mutationsPath = path.resolve(datasourcePath, "mutations");
+  const dataUtilsPath = path.resolve(datasourcePath, "utils");
   const componentsPath = path.resolve(process.cwd(), usingSrc ? "src" : "", "components");
   const adminComponentsPath = path.resolve(componentsPath, "admin", kebabCase(modelName, true));
 
@@ -68,6 +70,7 @@ if (modelName) {
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}Form.tsx`, generateFormComponent(modelName, i18n));
   await saveFile(adminComponentsPath, `${pascalCase(modelName, false)}List.tsx`, generateListComponent(modelName, i18n, subPath));
   await saveFile(componentsPath, "BackButton.tsx", generateBackButtonComponent(i18n));
+  await saveFile(dataUtilsPath, "all.ts", generateAllFetcherUtility(i18n));
 
   if (i18n) {
     // dictionaries

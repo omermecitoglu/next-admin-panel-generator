@@ -1,28 +1,20 @@
 "use client";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
-import ActionButton from "@omer-x/bs-ui-kit/ActionButton";
-import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
-{{#if i18n}}
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
-{{else}}
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-{{/if}}
-import { useEffect, useState } from "react";
-{{#if i18n}}
+import { type ComponentProps, useEffect, useState } from "react";
+import Button from "~/components/ui/Button";
 import { Link, useRouter } from "~/i18n/routing";
-{{/if}}
 
-type BackButtonProps = {
-  fallback: string,
+type BackButtonProps = Omit<ComponentProps<typeof Button>, "children" | "onClick" | "render" | "nativeButton"> & {
+  fallback: ComponentProps<typeof Link>["href"],
 };
 
 const BackButton = ({
   fallback,
+  ...otherProps
 }: BackButtonProps) => {
-  {{#if i18n}}
   const t = useTranslations("BackButton");
-  {{/if}}
   const router = useRouter();
   const [usingFallback, setUsingFallback] = useState(true);
 
@@ -31,31 +23,22 @@ const BackButton = ({
     setUsingFallback(!referredByOrigin || window.history.length < 2);
   }, []);
 
-  return usingFallback ? (
-    <LinkButton
-      as={Link}
-      variant="secondary"
-      icon={faChevronLeft}
-      {{#if i18n}}
-      text={t("label")}
-      {{else}}
-      text="Back"
-      {{/if}}
-      href={fallback}
-      size="sm"
-    />
+  const WrapperButton = ({ children }: ComponentProps<"button">) => (usingFallback ? (
+    <Button render={<Link href={fallback} />} nativeButton={false} {...otherProps}>
+      {children}
+    </Button>
   ) : (
-    <ActionButton
-      variant="secondary"
-      icon={faChevronLeft}
-      {{#if i18n}}
-      text={t("label")}
-      {{else}}
-      text="Back"
-      {{/if}}
-      onClick={router.back}
-      size="sm"
-    />
+    <Button onClick={router.back} {...otherProps}>
+      {children}
+    </Button>
+  ));
+
+  return (
+    <WrapperButton>
+      <FontAwesomeIcon icon={faChevronLeft} size="lg" />
+      {" "}
+      {t("label")}
+    </WrapperButton>
   );
 };
 

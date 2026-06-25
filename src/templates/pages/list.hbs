@@ -2,8 +2,8 @@ import CreateButton from "@omer-x/bs-ui-kit/CreateButton";
 import PageSection from "@omer-x/bs-ui-kit/PageSection";
 import { unauthorized } from "next/navigation";
 {{#if i18n}}
-import { getTranslations, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 {{else}}
 import Link from "next/link";
 {{/if}}
@@ -77,4 +77,4 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       />
     </PageSection>
   );
-};
+}

@@ -25,7 +25,7 @@ export const create{{ pascalCase modelName "singular" }} = defineFormAction({
     updateTag("getAll{{ pascalCase modelName "plural" }}()");
     return redirect({
       locale,
-      href: "/{{ kebabCase modelName "plural" }}"
+      href: "/{{ kebabCase modelName "plural" }}",
     });
   }),
 });
@@ -47,11 +47,11 @@ export const update{{ pascalCase modelName "singular" }} = defineFormAction({
       locale,
       href: fromList ? "/{{ kebabCase modelName "plural" }}" : {
         pathname: "/{{ kebabCase modelName "plural" }}/[id]",
-          params: {
-            id: {{ camelCase modelName "singular" }}Id,
-          },
+        params: {
+          id: {{ camelCase modelName "singular" }}Id,
         },
-      });
+      },
+    });
   }),
 });
 
@@ -70,7 +70,7 @@ export const destroy{{ pascalCase modelName "singular" }} = defineFormAction({
     updateTag("getAll{{ pascalCase modelName "plural" }}()");
     return redirect({
       locale,
-      href: "/{{ kebabCase modelName "plural" }}"
+      href: "/{{ kebabCase modelName "plural" }}",
     });
   }),
 });

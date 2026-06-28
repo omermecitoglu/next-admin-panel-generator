@@ -58,7 +58,7 @@ export const update{{ pascalCase modelName "singular" }} = defineFormAction({
 export const destroy{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: z.object({}),
-  action: () => (async (locale: AppLocale, {{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) => {
+  action: () => (async ({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) => {
     try {
       await delete{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id);
     } catch (error) {
@@ -68,9 +68,6 @@ export const destroy{{ pascalCase modelName "singular" }} = defineFormAction({
       throw error;
     }
     updateTag("getAll{{ pascalCase modelName "plural" }}()");
-    return redirect({
-      locale,
-      href: "/{{ kebabCase modelName "plural" }}",
-    });
+    displayMessage("success", "DONE");
   }),
 });

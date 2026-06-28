@@ -82,6 +82,15 @@ if (modelName) {
       BackButton: {
         label: "Back",
       },
+      FormField: {
+        clientSideErrors: {
+          rangeOverflow: "Must be less than or equal to {max}",
+          rangeUnderflow: "Must be greater than or equal to {min}",
+          tooLong: "Must be shorter than {maxLength} characters",
+          tooShort: "Must be at least {minLength} characters",
+          valueMissing: "This field is required",
+        },
+      },
       [pascalCase(modelName, false)]: {
         list: {
           title: capitalCase(modelName, true, false),
@@ -97,6 +106,8 @@ if (modelName) {
         delete: {
           title: `Delete ${capitalCase(modelName, false, false)}`,
           description: `Are you sure you want to delete this ${noCase(modelName, false)}?`,
+          confirm: "Confirm",
+          cancel: "Cancel",
         },
       },
     };

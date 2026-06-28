@@ -1,7 +1,6 @@
 import { faPencil } from "@fortawesome/free-solid-svg-icons/faPencil";
-import InfoTable from "@omer-x/bs-ui-kit/InfoTable";
-import LinkButton from "@omer-x/bs-ui-kit/LinkButton";
-import PageSection from "@omer-x/bs-ui-kit/PageSection";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tdx } from "@omer-x/tailwind-ui-kit/table";
 import { unauthorized } from "next/navigation";
 {{#if i18n}}
 import { hasLocale } from "next-intl";
@@ -10,6 +9,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 {{/if}}
 import BackButton from "~/components/BackButton";
+import PageSection from "~/components/tmp/PageSection";
+import Button from "~/components/ui/Button";
 import { getSession } from "~/core/session";
 import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 import getUserPerms from "~/data/user-perms";
@@ -51,32 +52,35 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       toolbar={(
         <>
           {perms.includes("can_create_{{ snakeCase modelName "plural" }}") && (
-            <LinkButton
-              as={Link}
-              icon={faPencil}
-              {{#if i18n}}
-              text={t("edit.title")}
-              {{else}}
-              text="Edit {{ capitalCase modelName "singular" }}"
-              {{/if}}
-              href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~camelCase modelName "singular"~}} .id}/edit`}
+            <Button
               size="sm"
-            />
+              {{#if i18n}}
+              render={<Link href=\{{ pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit", params: { id: {{ camelCase modelName "singular" }}.id } }} />}
+              {{else}}
+              render={<Link href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~ camelCase modelName "singular" }}.id}/edit`} />}
+              {{/if}}
+              nativeButton={false}
+            >
+              <FontAwesomeIcon icon={faPencil} size="lg" />
+              {{#if i18n}}
+              {t("edit.title")}
+              {{else}}
+              Edit {{ capitalCase modelName "singular" }}
+              {{/if}}
+            </Button>
           )}
           <BackButton fallback="{{ subPath }}/{{ kebabCase modelName "plural" }}" />
         </>
       )}
     >
-      <InfoTable
-        source={ {{~camelCase modelName "singular"~}} }
-        primaryKey="id"
-        schema=\{{
-          id: {
-            header: "ID",
-            long: true,
-          },
-        }}
-      />
+      <table className="w-full [&_td]:px-3 [&_td]:py-2 [&_th]:px-3 [&_th]:py-2">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <Tdx>{ {{~ camelCase modelName "singular" }}.id}</Tdx>
+          </tr>
+        </tbody>
+      </table>
     </PageSection>
   );
 }

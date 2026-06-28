@@ -1,70 +1,114 @@
+import { faCheck } from "@fortawesome/pro-solid-svg-icons/faCheck";
+import { faPenToSquare } from "@fortawesome/pro-solid-svg-icons/faPenToSquare";
+import { faSpinner } from "@fortawesome/pro-solid-svg-icons/faSpinner";
+import { faTrashCan } from "@fortawesome/pro-solid-svg-icons/faTrashCan";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tdx } from "@omer-x/tailwind-ui-kit/table";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
-{{else}}
-import DataTable from "@omer-x/bs-ui-kit/DataTable";
-import Link from "next/link";
 {{/if}}
-import { destroy{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
-{{#if i18n}}
-import AdminTable from "~/components/AdminTable";
-import { type AppLocale, Link } from "~/i18n/routing";
-{{/if}}
+import { destroyProduct } from "~/actions/product";
+import NeatTable from "~/components/NeatTable";
+import DeleteDialogTrigger from "~/components/tmp/admin/DeleteDialogTrigger";
+import List from "~/components/tmp/admin/List";
+import Button from "~/components/ui/Button";
+import { Link } from "~/i18n/routing";
 
 type {{ pascalCase modelName "singular" }}ListProps = {
   collection: {{ pascalCase modelName "singular" }}DTO[],
   userCanEdit: boolean,
   userCanDelete: boolean,
-  {{#if i18n}}
-  pageLocale: AppLocale,
-  {{/if}}
 };
 
 const {{ pascalCase modelName "singular" }}List = ({
   collection,
   userCanEdit,
   userCanDelete,
-  {{#if i18n}}
-  pageLocale,
-  {{/if}}
 }: {{ pascalCase modelName "singular" }}ListProps) => {
   {{#if i18n}}
   const t = useTranslations("{{ pascalCase modelName "singular" }}");
+  const fields = useTranslations("{{ pascalCase modelName "singular" }}Fields");
   {{/if}}
   return (
-    {{#if i18n}}
-    <AdminTable
-    {{else}}
-    <DataTable
-      link={Link}
-    {{/if}}
-      collection={collection}
-      primaryKey="id"
-      schema=\{{
-        name: {
-          {{#if i18n}}
-          header: t("fields.name"),
-          {{else}}
-          header: "Name",
-          {{/if}}
-          wrapper: (value, primaryKey) => <Link href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${primaryKey}`}>{value}</Link>,
-        },
+    <List
+      deleteDialog=\{{
+        title: t("delete.title"),
+        warningText: t("delete.description"),
+        closeButton: (
+          <Button variant="secondary">
+            {t("delete.cancel")}
+          </Button>
+        ),
       }}
-      editLink={userCanEdit ? (pk => `{{ subPath }}/{{ kebabCase modelName "plural" }}/${pk}/edit?r=list`) : undefined}
-      destroyAction={async (pk, fd) => {
-        "use server";
-        await destroy{{ pascalCase modelName "singular" }}.bind(null, pageLocale)(pk, {}, fd);
+      deleteAction={destroyProduct}
+      deleteActionButton=\{{
+        ready: ((
+          <Button variant="destructive">
+            <FontAwesomeIcon icon={faCheck} size="lg" />
+            {t("delete.confirm")}
+          </Button>
+        )),
+        pending: (
+          <Button variant="destructive" disabled>
+            <FontAwesomeIcon icon={faSpinner} size="lg" className="fa-spin" />
+            {t("delete.confirm")}
+          </Button>
+        ),
       }}
-      {{#if i18n}}
-      destroyWarningTitle={t("delete.title")}
-      destroyWarningDescription={t("delete.description")}
-      {{else}}
-      destroyWarningTitle="Delete {{ capitalCase modelName "singular" }}"
-      destroyWarningDescription="Are you sure you want to delete this {{ noCase modelName "singular" }}?"
-      destroyConfirmText="Confirm"
-      destroyCancelText="Cancel"
-      {{/if}}
-      destroyDisabled={!userCanDelete}
-    />
+    >
+      <NeatTable>
+        <thead>
+          <tr>
+            {{#if i18n}}
+            <th>{fields("name")}</th>
+            {{else}}
+            <th>Name</th>
+            {{/if}}
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {collection.map({{ camelCase modelName "singular" }} => (
+            <tr key={ {{~ camelCase modelName "singular" }}.id}>
+              <Tdx>{ {{~ camelCase modelName "singular" }}.name}</Tdx>
+              <td className="py-0!">
+                <div className="flex gap-1">
+                  <Button
+                    size="xs"
+                    render={!userCanEdit ? undefined : (
+                      <Link
+                        {{#if i18n}}
+                        href=\{{
+                          pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit",
+                          params: { id: product.id },
+                          query: { r: "list" },
+                        }}
+                        {{else}}
+                        href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${product.id}/edit?r=list`}
+                        {{/if}}
+                      />
+                    )}
+                    nativeButton={!userCanEdit}
+                    disabled={userCanEdit ? undefined : true}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                  </Button>
+                  <DeleteDialogTrigger
+                    itemId={product.id}
+                    render={(
+                      <Button size="xs" variant="destructive">
+                        <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                      </Button>
+                    )}
+                    disabled={!userCanDelete}
+                  />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </NeatTable>
+    </List>
   );
 };
 

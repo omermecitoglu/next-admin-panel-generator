@@ -1,53 +1,48 @@
-import ProgressiveForm from "@omer-x/bs-ui-kit/form/ProgressiveForm";
-import SmartForm from "@omer-x/bs-ui-kit/form/SmartForm";
-import SubmitButton from "@omer-x/bs-ui-kit/form/SubmitButton";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
 {{/if}}
-import Col from "react-bootstrap/Col";
+import { type ZodObject, type ZodType } from "zod";
+import Form from "~/components/ui/Form";
+import FormField from "~/components/ui/FormField";
+import Input from "~/components/ui/Input";
+import SubmitButton from "~/components/ui/SubmitButton";
 
 type {{ pascalCase modelName "singular" }}FormProps = {
-  action: (_: unknown, formData: FormData) => Promise<Record<string, string>>,
-  data?: {{ pascalCase modelName "singular" }}DTO,
+  purpose: "create" | "edit",
+  schema: ZodObject & (ZodType<New{{ pascalCase modelName "singular" }}DTO> | ZodType<{{ pascalCase modelName "singular" }}PatchDTO>),
+  action: (initialState: unknown, formData: FormData) => Promise<Record<string, string>>,
+  defaultValues?: Partial<{{ pascalCase modelName "singular" }}DTO>,
 };
 
 const {{ pascalCase modelName "singular" }}Form = ({
+  purpose,
+  schema,
   action,
-  data,
+  defaultValues = {},
 }: {{ pascalCase modelName "singular" }}FormProps) => {
   {{#if i18n}}
   const t = useTranslations("{{ pascalCase modelName "singular" }}");
+  const fields = useTranslations("ProductFields");
 
   {{/if}}
   return (
-    <ProgressiveForm
-      className="row row-gap-3"
+    <Form
       action={action}
       messages=\{{
       }}
     >
-      <Col md="6" className="d-flex flex-column gap-3">
-        <SmartForm
-          schema={schemaOf{{ pascalCase modelName "singular" }}CreateDTO}
-          defaultValues={data}
-          properties=\{{
-          {{#if i18n}}
-            title: { label: t("fields.title") },
-          {{else}}
-            title: { label: "Title" },
-          {{/if}}
-            /* put your inputs here */
-          }}
-        />
-        <Col xs="12">
-          {{#if i18n}}
-          <SubmitButton text={data ? t("edit.submit") : t("create.submit")} />
-          {{else}}
-          <SubmitButton text={data ? "Update" : "Create"} />
-          {{/if}}
-        </Col>
-      </Col>
-    </ProgressiveForm>
+      <FormField
+        schema={schema.shape.name}
+        name="name"
+        label={fields("name")}
+        control={<Input defaultValue={defaultValues.name} />}
+      />
+      {{#if i18n}}
+      <SubmitButton text={purpose === "edit" ? t("edit.submit") : t("create.submit")} />
+      {{else}}
+      <SubmitButton text={purpose === "edit" ? "Update" : "Create"} />
+      {{/if}}
+    </Form>
   );
 };
 

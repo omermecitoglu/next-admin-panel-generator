@@ -1,4 +1,3 @@
-import PageSection from "@omer-x/bs-ui-kit/PageSection";
 {{#if i18n}}
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -6,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { update{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import BackButton from "~/components/BackButton";
 import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
+import PageSection from "~/components/tmp/PageSection";
 import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
 {{#if i18n}}
 import { notFound, routing } from "~/i18n/routing";
@@ -43,12 +43,21 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       title="Edit {{ capitalCase modelName "singular" }}"
       {{/if}}
       toolbar={(
-        <BackButton fallback={fromList ? "{{ subPath }}/{{ kebabCase modelName "plural" }}" : `{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~camelCase modelName "singular"~}} .id}`} />
+        <BackButton
+          fallback={fromList ? "{{ subPath }}/{{ kebabCase modelName "plural" }}" : {
+            pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]",
+            params: {
+              id: {{ camelCase modelName "singular" }}Id,
+            },
+          }}
+        />
       )}
     >
       <{{ pascalCase modelName "singular" }}Form
-        action={update{{ pascalCase modelName "singular" }}.bind(null, locale, {{camelCase modelName "singular"}}.id, fromList)}
-        data={ {{~camelCase modelName "singular"~}} }
+        purpose="edit"
+        schema={schemaOf{{ pascalCase modelName "singular" }}PatchDTO}
+        action={updateProduct.bind(null, locale, product.id, fromList)}
+        defaultValues={ {{~ camelCase modelName "singular" ~}} }
       />
     </PageSection>
   );

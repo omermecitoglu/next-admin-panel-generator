@@ -96,7 +96,7 @@ if (modelName) {
         },
         delete: {
           title: `Delete ${capitalCase(modelName, false, false)}`,
-          description: `Are you sure you want to delete this ${noCase(modelName, true)}?`,
+          description: `Are you sure you want to delete this ${noCase(modelName, false)}?`,
         },
       },
     };

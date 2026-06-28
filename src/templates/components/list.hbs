@@ -59,7 +59,7 @@ const {{ pascalCase modelName "singular" }}List = ({
       destroyWarningDescription={t("delete.description")}
       {{else}}
       destroyWarningTitle="Delete {{ capitalCase modelName "singular" }}"
-      destroyWarningDescription="Are you sure you want to delete this {{ noCase modelName "plural" }}?"
+      destroyWarningDescription="Are you sure you want to delete this {{ noCase modelName "singular" }}?"
       destroyConfirmText="Confirm"
       destroyCancelText="Cancel"
       {{/if}}

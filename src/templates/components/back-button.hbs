@@ -1,6 +1,7 @@
 "use client";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { navigation } from "navigation-ponyfill";
 import { useTranslations } from "next-intl";
 import { type ComponentProps, useEffect, useState } from "react";
 import Button from "~/components/ui/Button";
@@ -16,29 +17,27 @@ const BackButton = ({
 }: BackButtonProps) => {
   const t = useTranslations("BackButton");
   const router = useRouter();
-  const [usingFallback, setUsingFallback] = useState(true);
+  const [navigationMode, setNavigationMode] = useState<"smooth" | "fallback">("fallback");
 
   useEffect(() => {
-    const referredByOrigin = !document.referrer.length || document.referrer.startsWith(window.location.origin);
-    setUsingFallback(!referredByOrigin || window.history.length < 2);
+    if (navigation.canGoBack) {
+      setNavigationMode("smooth");
+    }
   }, []);
 
-  const WrapperButton = ({ children }: ComponentProps<"button">) => (usingFallback ? (
-    <Button render={<Link href={fallback} />} nativeButton={false} {...otherProps}>
-      {children}
-    </Button>
-  ) : (
-    <Button onClick={router.back} {...otherProps}>
-      {children}
-    </Button>
-  ));
+  const buttonProps = navigationMode === "smooth" ? {
+    onClick: router.back,
+  } : {
+    render: <Link href={fallback} replace />,
+    nativeButton: false,
+  };
 
   return (
-    <WrapperButton>
+    <Button {...buttonProps} {...otherProps}>
       <FontAwesomeIcon icon={faChevronLeft} size="lg" />
       {" "}
       {t("label")}
-    </WrapperButton>
+    </Button>
   );
 };
 

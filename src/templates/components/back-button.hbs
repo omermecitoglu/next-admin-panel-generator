@@ -2,10 +2,17 @@
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { navigation } from "navigation-ponyfill";
+{{#if i18n}}
 import { useTranslations } from "next-intl";
+{{/if}}
 import { type ComponentProps, useEffect, useState } from "react";
 import Button from "~/components/ui/Button";
+{{#if i18n}}
 import { Link, useRouter } from "~/i18n/routing";
+{{else}}
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+{{/if}}
 
 type BackButtonProps = Omit<ComponentProps<typeof Button>, "children" | "onClick" | "render" | "nativeButton"> & {
   fallback: ComponentProps<typeof Link>["href"],
@@ -15,7 +22,9 @@ const BackButton = ({
   fallback,
   ...otherProps
 }: BackButtonProps) => {
+  {{#if i18n}}
   const t = useTranslations("BackButton");
+  {{/if}}
   const router = useRouter();
   const [navigationMode, setNavigationMode] = useState<"smooth" | "fallback">("fallback");
 
@@ -35,7 +44,11 @@ const BackButton = ({
   return (
     <Button {...buttonProps} size="sm" {...otherProps}>
       <FontAwesomeIcon icon={faChevronLeft} size="lg" />
+      {{#if i18n}}
       {t("label")}
+      {{else}}
+      Back
+      {{/if}}
     </Button>
   );
 };

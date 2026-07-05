@@ -19,6 +19,8 @@ import { listOf{{ pascalCase modelName "plural" }} } from "~/data/{{ kebabCase m
 import getUserPerms from "~/data/user-perms";
 {{#if i18n}}
 import { Link, notFound, routing } from "~/i18n/routing";
+{{else}}
+import { notFound } from "next/navigation";
 {{/if}}
 
 {{#if i18n}}
@@ -36,7 +38,13 @@ export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCa
   setRequestLocale(locale);
 {{else}}
 export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}">) {
-  const pageParams = await page.params;
+  const [
+    searchParams
+  ] = await Promise.all([
+    parseSearchParams(page.searchParams, z.object({
+      page: z.coerce.number().default(1),
+    }), notFound),
+  ]);
 {{/if}}
 
   const itemsPerPage = 100;

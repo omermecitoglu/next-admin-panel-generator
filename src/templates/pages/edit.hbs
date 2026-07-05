@@ -16,7 +16,7 @@ export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCa
   const { locale, id: {{camelCase modelName "singular"}}Id } = await page.params;
 {{else}}
 export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit">) {
-  const { locale, id: {{camelCase modelName "singular"}}Id } = await page.params;
+  const { id: {{camelCase modelName "singular"}}Id } = await page.params;
 {{/if}}
   const { r } = await page.searchParams;
   {{#if i18n}}
@@ -47,7 +47,7 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
           fallback={fromList ? "{{ subPath }}/{{ kebabCase modelName "plural" }}" : {
             pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]",
             params: {
-              id: {{ camelCase modelName "singular" }}Id,
+              id: {{ camelCase modelName "singular" }}.id,
             },
           }}
         />
@@ -56,7 +56,7 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       <{{ pascalCase modelName "singular" }}Form
         purpose="edit"
         schema={schemaOf{{ pascalCase modelName "singular" }}PatchDTO}
-        action={updateProduct.bind(null, locale, product.id, fromList)}
+        action={update{{ pascalCase modelName "singular" }}.bind(null{{#if i18n}}, locale{{/if}}, {{ camelCase modelName "singular" }}.id, fromList)}
         defaultValues={ {{~ camelCase modelName "singular" ~}} }
       />
     </PageSection>

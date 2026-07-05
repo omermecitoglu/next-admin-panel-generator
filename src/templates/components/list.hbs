@@ -7,12 +7,16 @@ import { Tdx } from "@omer-x/tailwind-ui-kit/table";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
 {{/if}}
-import { destroyProduct } from "~/actions/product";
+import { destroy{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
 import NeatTable from "~/components/NeatTable";
 import DeleteDialogTrigger from "~/components/tmp/admin/DeleteDialogTrigger";
 import List from "~/components/tmp/admin/List";
 import Button from "~/components/ui/Button";
+{{#if i18n}}
 import { Link } from "~/i18n/routing";
+{{else}}
+import Link from "next/link";
+{{/if}}
 
 type {{ pascalCase modelName "singular" }}ListProps = {
   collection: {{ pascalCase modelName "singular" }}DTO[],
@@ -32,26 +36,38 @@ const {{ pascalCase modelName "singular" }}List = ({
   return (
     <List
       deleteDialog=\{{
-        title: t("delete.title"),
-        warningText: t("delete.description"),
+        title: {{#if i18n}}t("delete.title"){{else}}"Delete"{{/if}},
+        warningText: {{#if i18n}}t("delete.description"){{else}}"Are you sure?"{{/if}},
         closeButton: (
           <Button variant="secondary">
+            {{#if i18n}}
             {t("delete.cancel")}
+            {{else}}
+            Cancel
+            {{/if}}
           </Button>
         ),
       }}
-      deleteAction={destroyProduct}
+      deleteAction={destroy{{ pascalCase modelName "singular" ~}} }
       deleteActionButton=\{{
         ready: ((
           <Button variant="destructive">
             <FontAwesomeIcon icon={faCheck} size="lg" />
+            {{#if i18n}}
             {t("delete.confirm")}
+            {{else}}
+            Delete
+            {{/if}}
           </Button>
         )),
         pending: (
           <Button variant="destructive" disabled>
             <FontAwesomeIcon icon={faSpinner} size="lg" className="fa-spin" />
+            {{#if i18n}}
             {t("delete.confirm")}
+            {{else}}
+            Delete
+            {{/if}}
           </Button>
         ),
       }}
@@ -80,11 +96,11 @@ const {{ pascalCase modelName "singular" }}List = ({
                         {{#if i18n}}
                         href=\{{
                           pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit",
-                          params: { id: product.id },
+                          params: { id: {{ camelCase modelName "singular" }}.id },
                           query: { r: "list" },
                         }}
                         {{else}}
-                        href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${product.id}/edit?r=list`}
+                        href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~ camelCase modelName "singular" }}.id}/edit?r=list`}
                         {{/if}}
                       />
                     )}
@@ -94,7 +110,7 @@ const {{ pascalCase modelName "singular" }}List = ({
                     <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                   </Button>
                   <DeleteDialogTrigger
-                    itemId={product.id}
+                    itemId={ {{~ camelCase modelName "singular" }}.id}
                     render={(
                       <Button size="xs" variant="destructive">
                         <FontAwesomeIcon icon={faTrashCan} size="lg" />

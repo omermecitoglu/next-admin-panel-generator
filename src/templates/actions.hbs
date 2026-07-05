@@ -13,7 +13,7 @@ import { mustBeLoggedIn } from "./middlewares/session";
 export const create{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: schemaOfNew{{ pascalCase modelName "singular" }}DTO,
-  action: input => (async (locale: AppLocale) => {
+  action: input => (async ({{#if i18n}}locale: AppLocale{{/if}}) => {
     try {
       await insert{{ pascalCase modelName "singular" }}(input);
     } catch (error) {
@@ -23,17 +23,21 @@ export const create{{ pascalCase modelName "singular" }} = defineFormAction({
       throw error;
     }
     updateTag("getAll{{ pascalCase modelName "plural" }}()");
+    {{#if i18n}}
     return redirect({
       locale,
       href: "/{{ kebabCase modelName "plural" }}",
     });
+    {{else}}
+    return redirect("/{{ kebabCase modelName "plural" }}");
+    {{/if}}
   }),
 });
 
 export const update{{ pascalCase modelName "singular" }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: schemaOf{{ pascalCase modelName "singular" }}PatchDTO,
-  action: input => (async (locale: AppLocale, {{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], fromList: boolean) => {
+  action: input => (async ({{#if i18n}}locale: AppLocale, {{/if}}{{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], fromList: boolean) => {
     try {
       await patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id, input);
     } catch (error) {
@@ -43,6 +47,7 @@ export const update{{ pascalCase modelName "singular" }} = defineFormAction({
       throw error;
     }
     updateTag(`getSingle{{ pascalCase modelName "singular" }}(${ {{~ camelCase modelName "singular" }}Id})`);
+    {{#if i18n}}
     return redirect({
       locale,
       href: fromList ? "/{{ kebabCase modelName "plural" }}" : {
@@ -52,6 +57,14 @@ export const update{{ pascalCase modelName "singular" }} = defineFormAction({
         },
       },
     });
+    {{else}}
+    return redirect(fromList ? "/{{ kebabCase modelName "plural" }}" : {
+      pathname: "/{{ kebabCase modelName "plural" }}/[id]",
+      params: {
+        id: {{ camelCase modelName "singular" }}Id,
+      },
+    });
+    {{/if}}
   }),
 });
 

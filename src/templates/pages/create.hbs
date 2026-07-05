@@ -17,7 +17,7 @@ export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCa
   setRequestLocale(locale);
 {{else}}
 export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/new">) {
-  const pageParams = await page.params;
+  await page.params;
 {{/if}}
   const [
     {{#if i18n}}
@@ -42,7 +42,7 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       <{{ pascalCase modelName "singular" }}Form
         purpose="create"
         schema={schemaOfNew{{ pascalCase modelName "singular" }}DTO}
-        action={createProduct.bind(null, locale)}
+        action={create{{ pascalCase modelName "singular" }}.bind(null{{#if i18n}}, locale{{/if}})}
       />
     </PageSection>
   );

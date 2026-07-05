@@ -22,7 +22,7 @@ const {{ pascalCase modelName "singular" }}Form = ({
 }: {{ pascalCase modelName "singular" }}FormProps) => {
   {{#if i18n}}
   const t = useTranslations("{{ pascalCase modelName "singular" }}");
-  const fields = useTranslations("ProductFields");
+  const fields = useTranslations("{{ pascalCase modelName "singular" }}Fields");
 
   {{/if}}
   return (
@@ -34,7 +34,7 @@ const {{ pascalCase modelName "singular" }}Form = ({
       <FormField
         schema={schema.shape.name}
         name="name"
-        label={fields("name")}
+        label={{#if i18n}}{fields("name")}{{else}}"Name"{{/if}}
         control={<Input defaultValue={defaultValues.name} />}
       />
       {{#if i18n}}

@@ -1,28 +1,25 @@
 import Handlebars from "handlebars";
-import { beforeAll, describe, expect, it, vi } from "vitest";
-import getTemplate from "./template";
+import { type Mock, afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import render from "./template";
 
-describe("getTemplate", () => {
+describe("render", () => {
   const templateString = "Hello, {{name}}!";
   const compiledTemplate = vi.fn();
+  let handlebarsSpy: Mock;
 
   beforeAll(() => {
-    vi.spyOn(Handlebars, "compile").mockImplementation(() => compiledTemplate);
+    handlebarsSpy = vi.spyOn(Handlebars, "compile").mockImplementation(() => compiledTemplate);
   });
 
-  it("should compile the given template string", () => {
-    const template = getTemplate(templateString);
+  afterAll(() => {
+    handlebarsSpy.mockRestore();
+  });
+
+  it("should parse the template with data", () => {
+    const data = { name: "Omer" };
+    render(templateString, data);
 
     expect(Handlebars.compile).toHaveBeenCalledWith(templateString);
-    expect(template).toBe(compiledTemplate);
-  });
-
-  it("should return a function that renders the template with data", () => {
-    const template = getTemplate(templateString);
-    const data = { name: "Omer" };
-
-    template(data);
-
     expect(compiledTemplate).toHaveBeenCalledWith(data);
   });
 });

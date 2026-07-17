@@ -2,7 +2,7 @@ import pLimit from "p-limit";
 
 export async function getAllConcurrently<T extends { id: unknown }>(
   fetchIds: (limit: number, skip: number) => Promise<{
-    items: T[],
+    ids: T["id"][],
     pagination: {
       offset: number,
       limit: number,
@@ -18,8 +18,8 @@ export async function getAllConcurrently<T extends { id: unknown }>(
   const offsets = Array.from({ length: Math.ceil(total / batchSize) - 1 }, (_, i) => (i + 1) * batchSize);
   const remainingPages = await Promise.all(offsets.map(offset => fetchIds(batchSize, offset)));
   const allIds = [
-    ...first.items.map(i => i.id),
-    ...remainingPages.flatMap(page => page.items.map(i => i.id)),
+    ...first.ids.map(id => id),
+    ...remainingPages.flatMap(page => page.ids.map(id => id)),
   ];
   const limit = pLimit(concurrency);
   return Promise.all(allIds.map(id => limit(() => fetchItem(id))));

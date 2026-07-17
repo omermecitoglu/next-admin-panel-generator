@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import template from "./create.hbs";
+import template from "./create.hbs?raw";
 
 type CreateResourcePageTemplate = {
   modelName: string,

@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import handleBarsTemplate from "./datasource.hbs";
+import handleBarsTemplate from "./datasource.hbs?raw";
 
 type DatasourceTemplate = {
   modelName: string,

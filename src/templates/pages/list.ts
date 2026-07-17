@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import template from "./list.hbs";
+import template from "./list.hbs?raw";
 
 type ResourceListPageTemplate = {
   modelName: string,

@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import handleBarsTemplate from "./data-mutations.hbs";
+import handleBarsTemplate from "./data-mutations.hbs?raw";
 
 type DataMutationsTemplate = {
   modelName: string,

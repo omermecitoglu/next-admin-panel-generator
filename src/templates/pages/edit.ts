@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import template from "./edit.hbs";
+import template from "./edit.hbs?raw";
 
 type EditResourcePageTemplate = {
   modelName: string,

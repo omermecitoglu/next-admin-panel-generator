@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import handleBarsTemplate from "./form.hbs";
+import handleBarsTemplate from "./form.hbs?raw";
 
 type FormComponentTemplate = {
   modelName: string,

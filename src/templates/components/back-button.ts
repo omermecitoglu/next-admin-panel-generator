@@ -1,5 +1,5 @@
 import render from "~/core/template";
-import handleBarsTemplate from "./back-button.hbs";
+import handleBarsTemplate from "./back-button.hbs?raw";
 
 type BackButtonComponentTemplate = {
   i18n: boolean,

@@ -20,13 +20,18 @@ import { Link, notFound, routing } from "~/i18n/routing";
 
 {{#if i18n}}
 export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit">) {
-  const { locale, id: {{camelCase modelName "singular"}}Id } = await page.params;
-  if (!hasLocale(routing.locales, locale)) notFound();
-  setRequestLocale(locale);
 {{else}}
 export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit">) {
-  const { id: {{camelCase modelName "singular"}}Id } = await page.params;
 {{/if}}
+  const [
+    { {{#if i18n}}locale, {{/if}}id: {{camelCase modelName "singular"}}Id },
+  ] = await Promise.all([
+    page.params,
+  ]);
+  {{#if i18n}}
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+  {{/if}}
   const [
     {{#if i18n}}
     t,

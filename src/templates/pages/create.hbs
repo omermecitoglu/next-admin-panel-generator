@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 {{#if i18n}}
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -12,13 +13,24 @@ import { notFound, routing } from "~/i18n/routing";
 
 {{#if i18n}}
 export default async function(page: PageProps<"/[locale]{{ subPath }}/{{ kebabCase modelName "plural" }}/new">) {
-  const { locale } = await page.params;
-  if (!hasLocale(routing.locales, locale)) notFound();
-  setRequestLocale(locale);
 {{else}}
 export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelName "plural" }}/new">) {
-  await page.params;
 {{/if}}
+  const [
+    _,
+    {{#if i18n}}
+    { locale },
+    {{else}}
+    __,
+    {{/if}}
+  ] = await Promise.all([
+    connection(),
+    page.params,
+  ]);
+  {{#if i18n}}
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+  {{/if}}
   const [
     {{#if i18n}}
     t,

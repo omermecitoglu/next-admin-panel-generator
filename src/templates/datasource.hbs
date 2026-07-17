@@ -9,7 +9,7 @@ interface SearchFilters {
 export async function getSingle{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
   "use cache";
   cacheTag(`getSingle{{ pascalCase modelName }}(${ {{~ camelCase modelName }}Id})`);
-  const { success, content } = await get{{ pascalCase modelName }}(null, {{ camelCase modelName }}Id);
+  const { success, content } = await get{{ pascalCase modelName }}({{ camelCase modelName }}Id);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "{{ constantCase modelName }}_NOT_FOUND":
@@ -26,7 +26,7 @@ export async function get{{ pascalCase modelName }}Ids(
   offset: number,
   filters: SearchFilters = {},
 ) {
-  const { success, content } = await find{{ pascalCase modelName }}Ids(null, {
+  const { success, content } = await find{{ pascalCase modelName }}Ids({
     limit,
     offset,
     ...filters,

@@ -7,7 +7,7 @@ import { Tdx } from "@omer-x/tailwind-ui-kit/table";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
 {{/if}}
-import { destroy{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
+import { destroy{{ pascalCase modelName }} } from "~/actions/{{ kebabCase modelName }}";
 import NeatTable from "~/components/NeatTable";
 import DeleteDialogTrigger from "~/components/tmp/admin/DeleteDialogTrigger";
 import List from "~/components/tmp/admin/List";
@@ -18,20 +18,20 @@ import { Link } from "~/i18n/routing";
 import Link from "next/link";
 {{/if}}
 
-type {{ pascalCase modelName "singular" }}ListProps = {
-  collection: {{ pascalCase modelName "singular" }}DTO[],
+type {{ pascalCase modelName }}ListProps = {
+  collection: {{ pascalCase modelName }}DTO[],
   userCanEdit: boolean,
   userCanDelete: boolean,
 };
 
-const {{ pascalCase modelName "singular" }}List = ({
+const {{ pascalCase modelName }}List = ({
   collection,
   userCanEdit,
   userCanDelete,
-}: {{ pascalCase modelName "singular" }}ListProps) => {
+}: {{ pascalCase modelName }}ListProps) => {
   {{#if i18n}}
-  const t = useTranslations("{{ pascalCase modelName "singular" }}");
-  const fields = useTranslations("{{ pascalCase modelName "singular" }}Fields");
+  const t = useTranslations("{{ pascalCase modelName }}");
+  const fields = useTranslations("{{ pascalCase modelName }}Fields");
   {{/if}}
   return (
     <List
@@ -84,9 +84,9 @@ const {{ pascalCase modelName "singular" }}List = ({
           </tr>
         </thead>
         <tbody>
-          {collection.map({{ camelCase modelName "singular" }} => (
-            <tr key={ {{~ camelCase modelName "singular" }}.id}>
-              <Tdx>{ {{~ camelCase modelName "singular" }}.name}</Tdx>
+          {collection.map({{ camelCase modelName }} => (
+            <tr key={ {{~ camelCase modelName }}.id}>
+              <Tdx>{ {{~ camelCase modelName }}.name}</Tdx>
               <td className="py-0!">
                 <div className="flex gap-1">
                   <Button
@@ -96,11 +96,11 @@ const {{ pascalCase modelName "singular" }}List = ({
                         {{#if i18n}}
                         href=\{{
                           pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]/edit",
-                          params: { id: {{ camelCase modelName "singular" }}.id },
+                          params: { id: {{ camelCase modelName }}.id },
                           query: { r: "list" },
                         }}
                         {{else}}
-                        href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~ camelCase modelName "singular" }}.id}/edit?r=list`}
+                        href={`{{ subPath }}/{{ kebabCase modelName "plural" }}/${ {{~ camelCase modelName }}.id}/edit?r=list`}
                         {{/if}}
                       />
                     )}
@@ -110,7 +110,7 @@ const {{ pascalCase modelName "singular" }}List = ({
                     <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                   </Button>
                   <DeleteDialogTrigger
-                    itemId={ {{~ camelCase modelName "singular" }}.id}
+                    itemId={ {{~ camelCase modelName }}.id}
                     render={(
                       <Button size="xs" variant="destructive">
                         <FontAwesomeIcon icon={faTrashCan} size="lg" />
@@ -128,4 +128,4 @@ const {{ pascalCase modelName "singular" }}List = ({
   );
 };
 
-export default {{ pascalCase modelName "singular" }}List;
+export default {{ pascalCase modelName }}List;

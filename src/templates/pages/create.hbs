@@ -2,9 +2,9 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 {{/if}}
-import { create{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
+import { create{{ pascalCase modelName }} } from "~/actions/{{ kebabCase modelName }}";
 import BackButton from "~/components/BackButton";
-import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
+import {{ pascalCase modelName }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName }}Form";
 import PageSection from "~/components/tmp/PageSection";
 {{#if i18n}}
 import { notFound, routing } from "~/i18n/routing";
@@ -25,7 +25,7 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
     {{/if}}
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCase modelName "singular" }}"),
+    getTranslations("{{ pascalCase modelName }}"),
     {{/if}}
   ]);
   return (
@@ -33,16 +33,16 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
       {{#if i18n}}
       title={t("create.title")}
       {{else}}
-      title="New {{ capitalCase modelName "singular" }}"
+      title="New {{ capitalCase modelName }}"
       {{/if}}
       toolbar={(
         <BackButton fallback="{{ subPath }}/{{ kebabCase modelName "plural" }}" />
       )}
     >
-      <{{ pascalCase modelName "singular" }}Form
+      <{{ pascalCase modelName }}Form
         purpose="create"
-        schema={schemaOfNew{{ pascalCase modelName "singular" }}DTO}
-        action={create{{ pascalCase modelName "singular" }}.bind(null{{#if i18n}}, locale{{/if}})}
+        schema={schemaOfNew{{ pascalCase modelName }}DTO}
+        action={create{{ pascalCase modelName }}.bind(null{{#if i18n}}, locale{{/if}})}
       />
     </PageSection>
   );

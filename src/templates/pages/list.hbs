@@ -11,7 +11,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 {{/if}}
 import z from "zod";
-import {{ pascalCase modelName "singular" }}List from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}List";
+import {{ pascalCase modelName }}List from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName }}List";
 import PageSection from "~/components/tmp/PageSection";
 import Button from "~/components/ui/Button";
 import { getSession } from "~/core/session";
@@ -57,7 +57,7 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
     session,
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCase modelName "singular" }}"),
+    getTranslations("{{ pascalCase modelName }}"),
     {{/if}}
     getSession(),
   ]);
@@ -84,14 +84,14 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
               {{#if i18n}}
               {t("create.title")}
               {{else}}
-              New {{ capitalCase modelName "singular" }}
+              New {{ capitalCase modelName }}
               {{/if}}
             </Button>
           )}
         </>
       )}
     >
-      <{{ pascalCase modelName "singular" }}List
+      <{{ pascalCase modelName }}List
         collection={ {{~camelCase modelName "plural"~}} }
         userCanEdit={perms.includes("can_edit_{{ snakeCase modelName "plural" }}")}
         userCanDelete={perms.includes("can_delete_{{ snakeCase modelName "plural" }}")}

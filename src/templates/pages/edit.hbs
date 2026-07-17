@@ -2,11 +2,11 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 {{/if}}
-import { update{{ pascalCase modelName "singular" }} } from "~/actions/{{ kebabCase modelName "singular" }}";
+import { update{{ pascalCase modelName }} } from "~/actions/{{ kebabCase modelName }}";
 import BackButton from "~/components/BackButton";
-import {{ pascalCase modelName "singular" }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName "singular" }}Form";
+import {{ pascalCase modelName }}Form from "~/components/admin/{{ kebabCase modelName "plural" }}/{{ pascalCase modelName }}Form";
 import PageSection from "~/components/tmp/PageSection";
-import { getSingle{{ pascalCase modelName "singular" }} } from "~/data/{{ kebabCase modelName "plural" }}";
+import { getSingle{{ pascalCase modelName }} } from "~/data/{{ kebabCase modelName "plural" }}";
 {{#if i18n}}
 import { notFound, routing } from "~/i18n/routing";
 {{/if}}
@@ -28,35 +28,35 @@ export default async function(page: PageProps<"{{ subPath }}/{{ kebabCase modelN
     {{#if i18n}}
     t,
     {{/if}}
-    {{ camelCase modelName "singular" }},
+    {{ camelCase modelName }},
   ] = await Promise.all([
     {{#if i18n}}
-    getTranslations("{{ pascalCase modelName "singular" }}"),
+    getTranslations("{{ pascalCase modelName }}"),
     {{/if}}
-    getSingle{{ pascalCase modelName "singular" }}({{camelCase modelName "singular"}}Id),
+    getSingle{{ pascalCase modelName }}({{camelCase modelName "singular"}}Id),
   ]);
   return (
     <PageSection
       {{#if i18n}}
       title={t("edit.title")}
       {{else}}
-      title="Edit {{ capitalCase modelName "singular" }}"
+      title="Edit {{ capitalCase modelName }}"
       {{/if}}
       toolbar={(
         <BackButton
           fallback={fromList ? "{{ subPath }}/{{ kebabCase modelName "plural" }}" : {
             pathname: "{{ subPath }}/{{ kebabCase modelName "plural" }}/[id]",
             params: {
-              id: {{ camelCase modelName "singular" }}.id,
+              id: {{ camelCase modelName }}.id,
             },
           }}
         />
       )}
     >
-      <{{ pascalCase modelName "singular" }}Form
+      <{{ pascalCase modelName }}Form
         purpose="edit"
-        schema={schemaOf{{ pascalCase modelName "singular" }}PatchDTO}
-        action={update{{ pascalCase modelName "singular" }}.bind(null{{#if i18n}}, locale{{/if}}, {{ camelCase modelName "singular" }}.id, fromList)}
+        schema={schemaOf{{ pascalCase modelName }}PatchDTO}
+        action={update{{ pascalCase modelName }}.bind(null{{#if i18n}}, locale{{/if}}, {{ camelCase modelName }}.id, fromList)}
         defaultValues={ {{~ camelCase modelName "singular" ~}} }
       />
     </PageSection>

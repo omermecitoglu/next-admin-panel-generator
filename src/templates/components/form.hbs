@@ -7,22 +7,22 @@ import FormField from "~/components/ui/FormField";
 import Input from "~/components/ui/Input";
 import SubmitButton from "~/components/ui/SubmitButton";
 
-type {{ pascalCase modelName "singular" }}FormProps = {
+type {{ pascalCase modelName }}FormProps = {
   purpose: "create" | "edit",
-  schema: ZodObject & (ZodType<New{{ pascalCase modelName "singular" }}DTO> | ZodType<{{ pascalCase modelName "singular" }}PatchDTO>),
+  schema: ZodObject & (ZodType<New{{ pascalCase modelName }}DTO> | ZodType<{{ pascalCase modelName }}PatchDTO>),
   action: (initialState: unknown, formData: FormData) => Promise<Record<string, string>>,
-  defaultValues?: Partial<{{ pascalCase modelName "singular" }}DTO>,
+  defaultValues?: Partial<{{ pascalCase modelName }}DTO>,
 };
 
-const {{ pascalCase modelName "singular" }}Form = ({
+const {{ pascalCase modelName }}Form = ({
   purpose,
   schema,
   action,
   defaultValues = {},
-}: {{ pascalCase modelName "singular" }}FormProps) => {
+}: {{ pascalCase modelName }}FormProps) => {
   {{#if i18n}}
-  const t = useTranslations("{{ pascalCase modelName "singular" }}");
-  const fields = useTranslations("{{ pascalCase modelName "singular" }}Fields");
+  const t = useTranslations("{{ pascalCase modelName }}");
+  const fields = useTranslations("{{ pascalCase modelName }}Fields");
 
   {{/if}}
   return (
@@ -46,4 +46,4 @@ const {{ pascalCase modelName "singular" }}Form = ({
   );
 };
 
-export default {{ pascalCase modelName "singular" }}Form;
+export default {{ pascalCase modelName }}Form;

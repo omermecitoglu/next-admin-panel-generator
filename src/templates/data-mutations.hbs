@@ -1,6 +1,6 @@
 import "server-only";
 
-export async function insert{{ pascalCase modelName "singular" }}(requestBody: New{{ pascalCase modelName "singular" }}DTO) {
+export async function insert{{ pascalCase modelName }}(requestBody: New{{ pascalCase modelName }}DTO) {
   const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
@@ -13,8 +13,8 @@ export async function insert{{ pascalCase modelName "singular" }}(requestBody: N
   return content;
 }
 
-export async function patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], requestBody: {{ pascalCase modelName "singular" }}PatchDTO) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}Id, requestBody);
+export async function patch{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"], requestBody: {{ pascalCase modelName }}PatchDTO) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName }}Id, requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":
@@ -26,8 +26,8 @@ export async function patch{{ pascalCase modelName "singular" }}({{ camelCase mo
   return content;
 }
 
-export async function delete{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName "singular" }}Id);
+export async function delete{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
+  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName }}Id);
   if (content && "errorCode" in content) {
     switch (content.errorCode) {
       case "XXXXXXXXXXXXXXXXXXXXXX":

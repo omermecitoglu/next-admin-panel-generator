@@ -2,13 +2,13 @@ import "server-only";
 import { cacheTag } from "next/cache";
 import { getAllConcurrently } from "./utils/all";
 
-export async function getSingle{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) {
+export async function getSingle{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
   "use cache";
-  cacheTag(`getSingle{{ pascalCase modelName "singular" }}(${ {{~ camelCase modelName "singular" }}Id})`);
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(null, {{ camelCase modelName "singular" }}Id);
+  cacheTag(`getSingle{{ pascalCase modelName }}(${ {{~ camelCase modelName }}Id})`);
+  const { success, content } = await get{{ pascalCase modelName }}(null, {{ camelCase modelName }}Id);
   if ("errorCode" in content) {
     switch (content.errorCode) {
-      case "{{ constantCase modelName "singular" }}_NOT_FOUND":
+      case "{{ constantCase modelName }}_NOT_FOUND":
       case "UNKNOWN_ERROR":
         throw new Error(content.errorCode);
     }
@@ -17,7 +17,7 @@ export async function getSingle{{ pascalCase modelName "singular" }}({{ camelCas
   return content;
 }
 
-export async function get{{ pascalCase modelName "singular" }}Ids(
+export async function get{{ pascalCase modelName }}Ids(
   limit: number,
   offset: number,
 ) {
@@ -43,15 +43,15 @@ export async function listOf{{ pascalCase modelName "plural" }}(
 ) {
   "use cache";
   cacheTag(`listOf{{ pascalCase modelName "plural" }}(${limit}, ${offset})`);
-  const list = await get{{ pascalCase modelName "singular" }}Ids(limit, offset);
+  const list = await get{{ pascalCase modelName }}Ids(limit, offset);
   return {
     totalItems: list.pagination.total,
-    items: await Promise.all(list.items.map(item => getSingle{{ pascalCase modelName "singular" }}(item.id))),
+    items: await Promise.all(list.items.map(item => getSingle{{ pascalCase modelName }}(item.id))),
   };
 }
 
 export async function getAll{{ pascalCase modelName "plural" }}() {
   "use cache";
   cacheTag("getAll{{ pascalCase modelName "plural" }}()");
-  return await getAllConcurrently(get{{ pascalCase modelName "singular" }}Ids, getSingle{{ pascalCase modelName "singular" }});
+  return await getAllConcurrently(get{{ pascalCase modelName }}Ids, getSingle{{ pascalCase modelName }});
 }

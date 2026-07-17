@@ -2,7 +2,7 @@
 import { defineFormAction, displayMessage } from "@omer-x/next-form-actions";
 import { updateTag } from "next/cache";
 import { z } from "zod/v4";
-import { delete{{ pascalCase modelName "singular" }}, insert{{ pascalCase modelName "singular" }}, patch{{ pascalCase modelName "singular" }} } from "~/data/mutations/{{ kebabCase modelName "singular" }}";
+import { delete{{ pascalCase modelName }}, insert{{ pascalCase modelName }}, patch{{ pascalCase modelName }} } from "~/data/mutations/{{ kebabCase modelName }}";
 {{#if i18n}}
 import { type AppLocale, redirect } from "~/i18n/routing";
 {{else}}
@@ -10,12 +10,12 @@ import { redirect } from "next/navigation";
 {{/if}}
 import { mustBeLoggedIn } from "./middlewares/session";
 
-export const create{{ pascalCase modelName "singular" }} = defineFormAction({
+export const create{{ pascalCase modelName }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
-  schema: schemaOfNew{{ pascalCase modelName "singular" }}DTO,
+  schema: schemaOfNew{{ pascalCase modelName }}DTO,
   action: input => (async ({{#if i18n}}locale: AppLocale{{/if}}) => {
     try {
-      await insert{{ pascalCase modelName "singular" }}(input);
+      await insert{{ pascalCase modelName }}(input);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
         displayMessage("error", error);
@@ -34,26 +34,26 @@ export const create{{ pascalCase modelName "singular" }} = defineFormAction({
   }),
 });
 
-export const update{{ pascalCase modelName "singular" }} = defineFormAction({
+export const update{{ pascalCase modelName }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
-  schema: schemaOf{{ pascalCase modelName "singular" }}PatchDTO,
-  action: input => (async ({{#if i18n}}locale: AppLocale, {{/if}}{{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"], fromList: boolean) => {
+  schema: schemaOf{{ pascalCase modelName }}PatchDTO,
+  action: input => (async ({{#if i18n}}locale: AppLocale, {{/if}}{{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"], fromList: boolean) => {
     try {
-      await patch{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id, input);
+      await patch{{ pascalCase modelName }}({{ camelCase modelName }}Id, input);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
         displayMessage("error", error);
       }
       throw error;
     }
-    updateTag(`getSingle{{ pascalCase modelName "singular" }}(${ {{~ camelCase modelName "singular" }}Id})`);
+    updateTag(`getSingle{{ pascalCase modelName }}(${ {{~ camelCase modelName }}Id})`);
     {{#if i18n}}
     return redirect({
       locale,
       href: fromList ? "/{{ kebabCase modelName "plural" }}" : {
         pathname: "/{{ kebabCase modelName "plural" }}/[id]",
         params: {
-          id: {{ camelCase modelName "singular" }}Id,
+          id: {{ camelCase modelName }}Id,
         },
       },
     });
@@ -61,19 +61,19 @@ export const update{{ pascalCase modelName "singular" }} = defineFormAction({
     return redirect(fromList ? "/{{ kebabCase modelName "plural" }}" : {
       pathname: "/{{ kebabCase modelName "plural" }}/[id]",
       params: {
-        id: {{ camelCase modelName "singular" }}Id,
+        id: {{ camelCase modelName }}Id,
       },
     });
     {{/if}}
   }),
 });
 
-export const destroy{{ pascalCase modelName "singular" }} = defineFormAction({
+export const destroy{{ pascalCase modelName }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: z.object({}),
-  action: () => (async ({{ camelCase modelName "singular" }}Id: {{ pascalCase modelName "singular" }}DTO["id"]) => {
+  action: () => (async ({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) => {
     try {
-      await delete{{ pascalCase modelName "singular" }}({{ camelCase modelName "singular" }}Id);
+      await delete{{ pascalCase modelName }}({{ camelCase modelName }}Id);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
         displayMessage("error", error);

@@ -1,7 +1,7 @@
 import "server-only";
 
 export async function insert{{ pascalCase modelName }}(requestBody: New{{ pascalCase modelName }}DTO) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(requestBody);
+  const { success, content } = await create{{ pascalCase modelName }}(requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
       case "BAD_REQUEST":
@@ -9,32 +9,33 @@ export async function insert{{ pascalCase modelName }}(requestBody: New{{ pascal
         throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
+  if (!success) throw new Error("create{{ pascalCase modelName }} was unsuccessful");
   return content;
 }
 
 export async function patch{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"], requestBody: {{ pascalCase modelName }}PatchDTO) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName }}Id, requestBody);
+  const { success, content } = await update{{ pascalCase modelName }}({{ camelCase modelName }}Id, requestBody);
   if ("errorCode" in content) {
     switch (content.errorCode) {
-      case "XXXXXXXXXXXXXXXXXXXXXX":
+      case "BAD_REQUEST":
+      case "{{ constantCase modelName }}_NOT_FOUND":
       case "UNKNOWN_ERROR":
         throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
+  if (!success) throw new Error("update{{ pascalCase modelName }} was unsuccessful");
   return content;
 }
 
-export async function delete{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX({{ camelCase modelName }}Id);
+export async function destroy{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
+  const { success, content } = await delete{{ pascalCase modelName }}({{ camelCase modelName }}Id);
   if (content && "errorCode" in content) {
     switch (content.errorCode) {
-      case "XXXXXXXXXXXXXXXXXXXXXX":
+      case "{{ constantCase modelName }}_NOT_FOUND":
       case "UNKNOWN_ERROR":
         throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
+  if (!success) throw new Error("delete{{ pascalCase modelName }} was unsuccessful");
   return content;
 }

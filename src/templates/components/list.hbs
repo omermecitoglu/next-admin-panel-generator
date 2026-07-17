@@ -7,7 +7,7 @@ import { Tdx } from "@omer-x/tailwind-ui-kit/table";
 {{#if i18n}}
 import { useTranslations } from "next-intl";
 {{/if}}
-import { destroy{{ pascalCase modelName }} } from "~/actions/{{ kebabCase modelName }}";
+import { delete{{ pascalCase modelName }} } from "~/actions/{{ kebabCase modelName }}";
 import NeatTable from "~/components/NeatTable";
 import DeleteDialogTrigger from "~/components/tmp/admin/DeleteDialogTrigger";
 import List from "~/components/tmp/admin/List";
@@ -48,7 +48,7 @@ const {{ pascalCase modelName }}List = ({
           </Button>
         ),
       }}
-      deleteAction={destroy{{ pascalCase modelName "singular" ~}} }
+      deleteAction={delete{{ pascalCase modelName "singular" ~}} }
       deleteActionButton=\{{
         ready: ((
           <Button variant="destructive">

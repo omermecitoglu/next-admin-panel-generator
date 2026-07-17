@@ -2,6 +2,10 @@ import "server-only";
 import { cacheTag } from "next/cache";
 import { getAllConcurrently } from "./utils/all";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface SearchFilters {
+}
+
 export async function getSingle{{ pascalCase modelName }}({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) {
   "use cache";
   cacheTag(`getSingle{{ pascalCase modelName }}(${ {{~ camelCase modelName }}Id})`);
@@ -13,18 +17,19 @@ export async function getSingle{{ pascalCase modelName }}({{ camelCase modelName
         throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
+  if (!success) throw new Error("get{{ pascalCase modelName }} was unsuccessful");
   return content;
 }
 
 export async function get{{ pascalCase modelName }}Ids(
   limit: number,
   offset: number,
+  filters: SearchFilters = {},
 ) {
-  const { success, content } = await XXXXXXXXXXXXXXXXXXXXXX(null, {
+  const { success, content } = await find{{ pascalCase modelName }}Ids(null, {
     limit,
     offset,
-    select: ["id"],
+    ...filters,
   });
   if ("errorCode" in content) {
     switch (content.errorCode) {
@@ -33,20 +38,21 @@ export async function get{{ pascalCase modelName }}Ids(
         throw new Error(content.errorCode);
     }
   }
-  if (!success) throw new Error("XXXXXXXXXXXXXXXXXXXXXX was unsuccessful");
+  if (!success) throw new Error("find{{ pascalCase modelName }}Ids was unsuccessful");
   return content;
 }
 
 export async function listOf{{ pascalCase modelName "plural" }}(
   limit: number,
   offset: number,
+  filters: SearchFilters = {},
 ) {
   "use cache";
-  cacheTag(`listOf{{ pascalCase modelName "plural" }}(${limit}, ${offset})`);
-  const list = await get{{ pascalCase modelName }}Ids(limit, offset);
+  cacheTag(`listOf{{ pascalCase modelName "plural" }}(${limit}, ${offset}, ${JSON.stringify(filters)})`);
+  const list = await get{{ pascalCase modelName }}Ids(limit, offset, filters);
   return {
     totalItems: list.pagination.total,
-    items: await Promise.all(list.items.map(item => getSingle{{ pascalCase modelName }}(item.id))),
+    items: await Promise.all(list.ids.map(id => getSingle{{ pascalCase modelName }}(id))),
   };
 }
 

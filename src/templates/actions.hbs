@@ -2,7 +2,7 @@
 import { defineFormAction, displayMessage } from "@omer-x/next-form-actions";
 import { updateTag } from "next/cache";
 import { z } from "zod/v4";
-import { delete{{ pascalCase modelName }}, insert{{ pascalCase modelName }}, patch{{ pascalCase modelName }} } from "~/data/mutations/{{ kebabCase modelName }}";
+import { destroy{{ pascalCase modelName }}, insert{{ pascalCase modelName }}, patch{{ pascalCase modelName }} } from "~/data/mutations/{{ kebabCase modelName }}";
 {{#if i18n}}
 import { type AppLocale, redirect } from "~/i18n/routing";
 {{else}}
@@ -68,12 +68,12 @@ export const update{{ pascalCase modelName }} = defineFormAction({
   }),
 });
 
-export const destroy{{ pascalCase modelName }} = defineFormAction({
+export const delete{{ pascalCase modelName }} = defineFormAction({
   middlewares: [mustBeLoggedIn],
   schema: z.object({}),
   action: () => (async ({{ camelCase modelName }}Id: {{ pascalCase modelName }}DTO["id"]) => {
     try {
-      await delete{{ pascalCase modelName }}({{ camelCase modelName }}Id);
+      await destroy{{ pascalCase modelName }}({{ camelCase modelName }}Id);
     } catch (error) {
       if (error === "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") {
         displayMessage("error", error);

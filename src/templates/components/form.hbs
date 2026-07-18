@@ -28,6 +28,7 @@ const {{ pascalCase modelName }}Form = ({
   return (
     <Form
       action={action}
+      onlyDirty={purpose === "edit"}
       messages=\{{
       }}
     >

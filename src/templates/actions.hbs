@@ -22,7 +22,7 @@ export const create{{ pascalCase modelName }} = defineFormAction({
       }
       throw error;
     }
-    updateTag("getAll{{ pascalCase modelName "plural" }}()");
+    updateTag("get{{ pascalCase modelName }}Ids(...)");
     {{#if i18n}}
     return redirect({
       locale,
@@ -80,7 +80,7 @@ export const delete{{ pascalCase modelName }} = defineFormAction({
       }
       throw error;
     }
-    updateTag("getAll{{ pascalCase modelName "plural" }}()");
+    updateTag("get{{ pascalCase modelName }}Ids(...)");
     displayMessage("success", "DONE");
   }),
 });
